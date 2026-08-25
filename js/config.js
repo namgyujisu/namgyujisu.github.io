@@ -121,12 +121,12 @@ const CONFIG = {
   // Firestore 보안 규칙이 담당하므로 저장소에 공개되어도 괜찮습니다.
   // 비워두면 방명록 섹션이 "준비 중"으로 표시됩니다.
   firebase: {
-    apiKey: '',
-    authDomain: '',
-    projectId: '',
-    storageBucket: '',
-    messagingSenderId: '',
-    appId: '',
+    apiKey: 'AIzaSyBNKBrdGxR97VNWCGIprCfy6E0_peYE62s',
+    authDomain: 'namgyujisu.firebaseapp.com',
+    projectId: 'namgyujisu',
+    storageBucket: 'namgyujisu.firebasestorage.app',
+    messagingSenderId: '78598430429',
+    appId: '1:78598430429:web:9187e3809a133df1650534',
   },
 
   // 미리보기 카드(og) 문구는 index.html 의 meta 태그에서 관리한다.
