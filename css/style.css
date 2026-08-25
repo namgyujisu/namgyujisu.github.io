@@ -18,7 +18,7 @@
   --font-en:     'Cormorant Garamond', 'Gowun Batang', serif;
   --font-ui:     'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
 
-  --page-w:      480px;
+  --content-w:   576px;   /* 글이 모이는 가운데 컬럼 폭. 배경과 사진은 화면 끝까지 */
   --pad:         28px;
   --radius:      2px;
 
@@ -44,41 +44,19 @@ a { color: inherit; text-decoration: none; }
 p { margin: 0; }
 h1, h2 { margin: 0; font-weight: 400; }
 
-/* 페이지 = 모바일 폭 고정 카드.
-   청첩장은 대부분 휴대폰으로 열리므로 폭을 고정하고,
-   넓은 화면에서는 아래 데스크톱 규칙으로 카드 바깥을 채운다. */
+/* 페이지는 화면 폭을 그대로 쓴다. 폭을 좁히는 일은 섹션이 맡는다. */
 .page {
-  position: relative;
-  z-index: 1;
-  max-width: var(--page-w);
-  margin: 0 auto;
   background: var(--bg);
   overflow: hidden;
-  box-shadow: 0 0 60px rgba(60, 50, 40, .10);
 }
 
-/* ---------- 데스크톱: 카드 뒤를 대표 사진으로 채운다 ---------- */
-@media (min-width: 880px) {
-  body::before {
-    content: '';
-    position: fixed;
-    inset: -40px;                    /* blur 가장자리가 비지 않도록 여유 */
-    background: var(--hero-img, url('../images/hero.svg')) center / cover no-repeat;
-    filter: blur(34px) saturate(.8) brightness(.58);
-    z-index: 0;
-  }
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at center, rgba(20, 16, 12, .12) 0%, rgba(20, 16, 12, .48) 100%);
-    z-index: 0;
-  }
-  .page {
-    min-height: 100vh;
-    box-shadow: 0 24px 80px rgba(20, 16, 12, .42);
-  }
+/* 섹션 배경은 화면 끝까지, 내용만 가운데로 모으는 장치.
+   좌우 패딩이 남는 공간을 흡수해 내용이 --content-w 를 넘지 않는다.
+   래퍼 엘리먼트나 별도 데스크톱 레이아웃이 필요 없다. */
+.section,
+.footer {
+  padding-left:  max(var(--pad), calc((100% - var(--content-w)) / 2));
+  padding-right: max(var(--pad), calc((100% - var(--content-w)) / 2));
 }
 
 /* =============================================================
@@ -113,8 +91,12 @@ h1, h2 { margin: 0; font-weight: 400; }
       rgba(30, 25, 20, .30) 100%);
 }
 
+/* 사진은 화면 끝까지, 글자는 가운데로 */
 .hero__content {
   position: relative;
+  width: 100%;
+  max-width: var(--content-w);
+  margin: 0 auto;
   padding: calc(58px + env(safe-area-inset-top)) var(--pad) 0;
   text-align: center;
   color: var(--white);
@@ -204,7 +186,8 @@ h1, h2 { margin: 0; font-weight: 400; }
    공통 섹션
    ============================================================= */
 .section {
-  padding: 74px var(--pad);
+  padding-top: 74px;
+  padding-bottom: 74px;   /* 좌우 패딩은 위 가운데 정렬 규칙이 담당 */
   text-align: center;
 }
 .section--contact,
@@ -600,7 +583,8 @@ h1, h2 { margin: 0; font-weight: 400; }
    Footer
    ============================================================= */
 .footer {
-  padding: 44px var(--pad) calc(44px + env(safe-area-inset-bottom));
+  padding-top: 44px;
+  padding-bottom: calc(44px + env(safe-area-inset-bottom));
   text-align: center;
   border-top: 1px solid var(--line);
 }
@@ -646,4 +630,14 @@ h1, h2 { margin: 0; font-weight: 400; }
   :root { --pad: 22px; }
   .hero__names span { font-size: 26px; }
   .section__title { font-size: 19px; }
+}
+
+/* 넓은 화면에서는 사진이 화면 전체를 채우므로 글자도 그에 맞춰 키운다 */
+@media (min-width: 768px) {
+  .hero__names span      { font-size: 36px; }
+  .hero__names .hero__amp { font-size: 30px; }
+  .hero__date            { font-size: 20px; }
+  .hero__venue           { font-size: 14.5px; }
+  .section               { padding-top: 92px; padding-bottom: 92px; }
+  .section__title        { font-size: 24px; }
 }
