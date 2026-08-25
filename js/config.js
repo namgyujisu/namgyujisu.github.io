@@ -115,6 +115,20 @@ const CONFIG = {
   },
 
   /* ---------- 공유 ---------- */
+  /* ---------- 방명록 (Firebase Firestore) ---------- */
+  // Firebase 콘솔 → 프로젝트 설정 → 내 앱 → 웹 앱의 firebaseConfig 를 붙여넣으세요.
+  // 이 값들은 비밀키가 아니라 공개용 식별자입니다. 실제 접근 제어는
+  // Firestore 보안 규칙이 담당하므로 저장소에 공개되어도 괜찮습니다.
+  // 비워두면 방명록 섹션이 "준비 중"으로 표시됩니다.
+  firebase: {
+    apiKey: '',
+    authDomain: '',
+    projectId: '',
+    storageBucket: '',
+    messagingSenderId: '',
+    appId: '',
+  },
+
   // 미리보기 카드(og) 문구는 index.html 의 meta 태그에서 관리한다.
   // 스크래퍼는 JS 를 실행하지 않아 여기 값으로는 바꿀 수 없기 때문이다.
   share: {
@@ -122,3 +136,6 @@ const CONFIG = {
     description: '2027년 10월 17일 일요일 오후 1시, 노블발렌티 삼성 5층 채플홀',
   },
 };
+
+// guestbook.js 는 모듈이라 전역 렉시컬 바인딩 대신 이 참조를 쓴다.
+window.CONFIG = CONFIG;

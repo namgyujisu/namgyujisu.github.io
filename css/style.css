@@ -561,7 +561,103 @@ h1, h2 { margin: 0; font-weight: 400; }
 .copy-btn:hover, .copy-btn:active { background: var(--gold); border-color: var(--gold); color: var(--white); }
 
 /* =============================================================
-   8. 공유하기
+   8. 방명록
+   ============================================================= */
+.section--guestbook { background: var(--bg-alt); }
+
+.gb__note {
+  margin-top: 26px;
+  font-size: 13px;
+  line-height: 2.1;
+  color: var(--ink-soft);
+}
+
+.gb__form { margin-top: 26px; }
+.gb__row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.gb__input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 13.5px;
+  -webkit-appearance: none;
+  transition: border-color .25s var(--ease);
+}
+.gb__input::placeholder { color: #b8afa3; }
+.gb__input:focus { outline: none; border-color: var(--gold); }
+.gb__textarea {
+  margin-top: 8px;
+  resize: vertical;
+  min-height: 92px;
+  line-height: 1.8;
+}
+.gb__submit {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px 0;
+  background: var(--gold);
+  color: var(--white);
+  font-family: var(--font-ui);
+  font-size: 13.5px;
+  letter-spacing: .08em;
+  transition: opacity .25s var(--ease);
+}
+.gb__submit:hover { opacity: .88; }
+.gb__submit:disabled { opacity: .5; cursor: default; }
+
+.gb__empty {
+  margin-top: 30px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.gb__empty[hidden] { display: none; }
+
+.gb__list {
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+.gb__item {
+  padding: 18px;
+  background: var(--white);
+  border: 1px solid var(--line);
+}
+.gb__item + .gb__item { margin-top: 8px; }
+.gb__head {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+.gb__name { font-size: 14px; letter-spacing: .06em; }
+.gb__date {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--muted);
+}
+.gb__del {
+  margin-left: auto;
+  padding: 0 4px;
+  font-size: 17px;
+  line-height: 1;
+  color: var(--line);
+  transition: color .25s var(--ease);
+}
+.gb__del:hover { color: var(--ink-soft); }
+.gb__msg {
+  margin-top: 9px;
+  font-size: 13.5px;
+  line-height: 2;
+  color: var(--ink-soft);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* =============================================================
+   9. 공유하기
    ============================================================= */
 .section--share { padding-top: 60px; padding-bottom: 60px; }
 .share { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
