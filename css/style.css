@@ -44,13 +44,41 @@ a { color: inherit; text-decoration: none; }
 p { margin: 0; }
 h1, h2 { margin: 0; font-weight: 400; }
 
-/* 페이지 = 모바일 폭 고정 카드 */
+/* 페이지 = 모바일 폭 고정 카드.
+   청첩장은 대부분 휴대폰으로 열리므로 폭을 고정하고,
+   넓은 화면에서는 아래 데스크톱 규칙으로 카드 바깥을 채운다. */
 .page {
+  position: relative;
+  z-index: 1;
   max-width: var(--page-w);
   margin: 0 auto;
   background: var(--bg);
   overflow: hidden;
   box-shadow: 0 0 60px rgba(60, 50, 40, .10);
+}
+
+/* ---------- 데스크톱: 카드 뒤를 대표 사진으로 채운다 ---------- */
+@media (min-width: 880px) {
+  body::before {
+    content: '';
+    position: fixed;
+    inset: -40px;                    /* blur 가장자리가 비지 않도록 여유 */
+    background: var(--hero-img, url('../images/hero.svg')) center / cover no-repeat;
+    filter: blur(34px) saturate(.8) brightness(.58);
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at center, rgba(20, 16, 12, .12) 0%, rgba(20, 16, 12, .48) 100%);
+    z-index: 0;
+  }
+  .page {
+    min-height: 100vh;
+    box-shadow: 0 24px 80px rgba(20, 16, 12, .42);
+  }
 }
 
 /* =============================================================
