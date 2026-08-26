@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1800" viewBox="0 0 1200 1800">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ded5c8"/><stop offset="100%" stop-color="#a89781"/>
+    </linearGradient>
+    <radialGradient id="v" cx="50%" cy="42%" r="72%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity=".20"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="1800" fill="url(#g)"/>
+  <rect width="1200" height="1800" fill="url(#v)"/>
+  <g fill="none" stroke="#fff" stroke-opacity=".38">
+    <rect x="72" y="90" width="1056" height="1620"/>
+  </g>
+  <text x="50%" y="886" text-anchor="middle"
+        font-family="Georgia, serif" font-size="54"
+        letter-spacing="14" fill="#fff" fill-opacity=".85">HERO PHOTO</text>
+  <text x="50%" y="966" text-anchor="middle"
+        font-family="sans-serif" font-size="29"
+        letter-spacing="7" fill="#fff" fill-opacity=".65">대표 사진을 images/hero.jpg 로 교체하세요</text>
+</svg>
