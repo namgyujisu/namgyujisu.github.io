@@ -22,6 +22,7 @@
     car:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M3 13l1.7-4.9A2 2 0 0 1 6.6 6.8h10.8a2 2 0 0 1 1.9 1.3L21 13v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4z"/><path d="M6.5 16h.01M17.5 16h.01M3 13h18"/></svg>',
     link:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>',
     share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>',
+    kakao: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.9 3 2.8 6.3 2.8 10.4c0 2.6 1.7 4.9 4.3 6.2l-1 3.8c-.1.3.3.6.6.4l4.5-3c.3 0 .5.1.8.1 5.1 0 9.2-3.3 9.2-7.5S17.1 3 12 3z"/></svg>',
   };
 
   /* ---------- 날짜 ---------- */
@@ -368,9 +369,47 @@
     if (btn) copyText(btn.dataset.copy);
   });
 
+  // 카카오톡 공유는 SDK 가 뜨고 키가 있을 때만 노출한다.
+  // (링크만 붙여넣는 것과 달리 이미지 · 설명 · 버튼이 있는 카드로 나간다.)
+  const kakaoReady = (() => {
+    const key = (CONFIG.map || {}).kakaoAppKey;
+    if (!key || typeof Kakao === 'undefined') return false;
+    try {
+      if (!Kakao.isInitialized()) Kakao.init(key);
+      return true;
+    } catch (err) {
+      console.warn('[share] 카카오 SDK 초기화 실패', err);
+      return false;
+    }
+  })();
+
   $('[data-share]').innerHTML = `
+    ${kakaoReady ? `<button type="button" class="share__btn share__btn--kakao" data-share-kakao>${ICON.kakao}<span>카카오톡 공유</span></button>` : ''}
     <button type="button" class="share__btn" data-share-native>${ICON.share}<span>공유하기</span></button>
     <button type="button" class="share__btn" data-share-link>${ICON.link}<span>링크 복사</span></button>`;
+
+  if (kakaoReady) {
+    const sh   = CONFIG.share;
+    const url  = sh.url || location.href;
+    const link = { mobileWebUrl: url, webUrl: url };
+    $('[data-share-kakao]').addEventListener('click', () => {
+      try {
+        Kakao.Share.sendDefault({
+          objectType: 'feed',
+          content: {
+            title: sh.title,
+            description: sh.description,
+            imageUrl: sh.image,
+            link,
+          },
+          buttons: [{ title: sh.buttonText || '청첩장 보기', link }],
+        });
+      } catch (err) {
+        console.warn('[share] 카카오톡 공유 실패 — 링크 복사로 대체합니다.', err);
+        copyText(url);
+      }
+    });
+  }
 
   $('[data-share-link]').addEventListener('click', () => copyText(location.href));
   $('[data-share-native]').addEventListener('click', async () => {

@@ -685,7 +685,17 @@ h1, h2 { margin: 0; font-weight: 400; }
    9. 공유하기
    ============================================================= */
 .section--share { padding-top: 60px; padding-bottom: 60px; }
+/* 버튼이 둘일 때는 나란히, 카카오톡 공유가 붙어 셋이 되면 첫 줄을 통째로 준다. */
 .share { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.share__btn--kakao {
+  grid-column: 1 / -1;
+  border-color: #f2d200;
+  background: #fee500;      /* 카카오 브랜드 노랑 */
+  color: #191600;
+}
+.share__btn--kakao:hover, .share__btn--kakao:active {
+  background: #f0d800; border-color: #e0c800; color: #191600;
+}
 .share__btn {
   padding: 15px 0;
   border: 1px solid var(--line);

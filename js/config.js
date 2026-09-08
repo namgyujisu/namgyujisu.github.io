@@ -159,6 +159,13 @@ const CONFIG = {
   share: {
     title: '박남규 ♥ 염지수 결혼합니다',
     description: '2027년 10월 17일 일요일 오후 1시, 노블발렌티 삼성 5층 채플홀',
+
+    // 카카오톡 공유 카드에 쓰는 값들.
+    // image 는 반드시 절대주소여야 하고, 카카오가 직접 받아가므로 공개돼 있어야
+    // 합니다. 가로형(1200x630)이 카드에 가장 잘 맞습니다.
+    image: 'https://namgyujisu.github.io/images/og-image.jpg',
+    url: 'https://namgyujisu.github.io/',
+    buttonText: '청첩장 보기',
   },
 };
 
