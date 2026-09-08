@@ -445,8 +445,30 @@ h1, h2 { margin: 0; font-weight: 400; }
   border: 1px solid var(--line);
   background: var(--white);
   overflow: hidden;
+  /* 카카오 타일이 원색이라 그대로 두면 종이 질감의 다른 섹션과 튄다.
+     채도만 살짝 낮춰 배경으로 물러나게 한다. 1 로 두면 원본 색. */
+  filter: saturate(.82);
 }
 .map iframe { width: 100%; height: 100%; border: 0; filter: grayscale(.25); }
+/* 지도 위 예식장 이름표.
+   지도 타일에 새겨진 글자(카카오가 서버에서 구워 보내는 고딕)와 나란히 놓여도
+   튀지 않도록 같은 계열의 한글 고딕으로 맞춘다. 타일 글꼴 자체는 바꿀 수 없다. */
+.map__pin {
+  padding: 5px 11px;
+  border: 1px solid rgba(47, 42, 38, .16);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, .94);
+  color: #333;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -.01em;   /* 고딕은 자간을 벌리면 지도 라벨처럼 안 보인다 */
+  white-space: nowrap;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .18);
+}
+
 /* 카카오 · 네이버 SDK 는 iframe 대신 div 를 그려 넣는다. */
 .map > div { width: 100%; height: 100%; }
 .map img { max-width: none; }   /* 지도 타일이 반응형 규칙에 눌리지 않게 */

@@ -225,9 +225,15 @@
     map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 
     const marker = new kakao.maps.Marker({ map, position: center });
-    new kakao.maps.InfoWindow({
-      content: `<div style="padding:6px 10px;font-size:12px;white-space:nowrap">${v.name}</div>`,
-    }).open(map, marker);
+    // 기본 InfoWindow 는 시스템 폰트의 각진 흰 박스라 청첩장 톤과 안 맞는다.
+    // CustomOverlay 로 바꾸면 내용이 그냥 우리 HTML 이라 CSS 가 다 먹는다.
+    new kakao.maps.CustomOverlay({
+      map,
+      position: center,
+      xAnchor: 0.5,          // 마커 기준 가운데
+      yAnchor: 2.2,          // 마커 머리 위로 띄운다
+      content: `<div class="map__pin">${v.name}</div>`,
+    });
 
     // 마커를 누르면 카카오맵 장소 페이지로 (길찾기 · 로드뷰가 거기 다 있다).
     kakao.maps.event.addListener(marker, 'click', () => {
