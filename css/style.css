@@ -447,6 +447,9 @@ h1, h2 { margin: 0; font-weight: 400; }
   overflow: hidden;
 }
 .map iframe { width: 100%; height: 100%; border: 0; filter: grayscale(.25); }
+/* 카카오 · 네이버 SDK 는 iframe 대신 div 를 그려 넣는다. */
+.map > div { width: 100%; height: 100%; }
+.map img { max-width: none; }   /* 지도 타일이 반응형 규칙에 눌리지 않게 */
 .map__placeholder {
   width: 100%; height: 100%;
   display: grid; place-items: center; align-content: center; gap: 8px;

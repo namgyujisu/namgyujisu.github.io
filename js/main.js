@@ -191,13 +191,100 @@
   /* =========================================================
      6. 오시는 길
      ========================================================= */
+
+  // 외부 지도 SDK 를 한 번만 불러온다. 실패하면 reject → 구글 임베드로 폴백.
+  const scriptCache = {};
+  function loadScript(src) {
+    if (scriptCache[src]) return scriptCache[src];
+    scriptCache[src] = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.onload = resolve;
+      s.onerror = () => reject(new Error(src));
+      document.head.appendChild(s);
+    });
+    return scriptCache[src];
+  }
+
+  function googleMap(box, v, m) {
+    box.innerHTML =
+      `<iframe title="${v.name} 위치" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+         src="https://maps.google.com/maps?q=${v.lat},${v.lng}&z=${m.zoom || 16}&hl=ko&output=embed"></iframe>`;
+  }
+
+  async function kakaoMap(box, v, m) {
+    await loadScript(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${m.kakaoAppKey}&autoload=false`);
+    await new Promise((resolve) => kakao.maps.load(resolve));
+
+    box.innerHTML = '';
+    const center = new kakao.maps.LatLng(v.lat, v.lng);
+    const map = new kakao.maps.Map(box, { center, level: m.kakaoLevel || 4 });
+    // 페이지를 스크롤하다 지도 위에서 확대되는 사고를 막는다 (버튼으로만 확대).
+    map.setZoomable(false);
+    map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
+
+    const marker = new kakao.maps.Marker({ map, position: center });
+    const label = new kakao.maps.InfoWindow({
+      content: `<div style="padding:6px 10px;font-size:12px;white-space:nowrap">${v.name}</div>`,
+    });
+    label.open(map, marker);
+
+    // 마커를 누르면 카카오맵 앱/웹으로 길찾기.
+    kakao.maps.event.addListener(marker, 'click', () => {
+      window.open(`https://map.kakao.com/?q=${encodeURIComponent(v.name)}`, '_blank', 'noopener');
+    });
+  }
+
+  async function naverMap(box, v, m) {
+    // 신규 네이버 클라우드 콘솔은 ncpKeyId, 구 콘솔 키는 ncpClientId 를 씁니다.
+    // 지도가 비어 보이면 아래 파라미터 이름을 ncpClientId 로 바꿔보세요.
+    await loadScript(`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${m.naverClientId}`);
+
+    box.innerHTML = '';
+    const center = new naver.maps.LatLng(v.lat, v.lng);
+    const map = new naver.maps.Map(box, {
+      center,
+      zoom: m.zoom || 16,
+      scrollWheel: false,   // 페이지 스크롤 보호
+      logoControl: true,
+      mapDataControl: false,
+    });
+    const marker = new naver.maps.Marker({ map, position: center });
+    new naver.maps.InfoWindow({
+      content: `<div style="padding:6px 10px;font-size:12px;white-space:nowrap">${v.name}</div>`,
+      borderWidth: 1,
+      disableAnchor: false,
+    }).open(map, marker);
+
+    naver.maps.Event.addListener(marker, 'click', () => {
+      window.open(`https://map.naver.com/p/search/${encodeURIComponent(v.name)}`, '_blank', 'noopener');
+    });
+  }
+
+  function renderMap(box, v, m) {
+    const provider = m.provider || 'google';
+    const key = provider === 'kakao' ? m.kakaoAppKey : provider === 'naver' ? m.naverClientId : null;
+
+    if (provider === 'google' || !key) {
+      googleMap(box, v, m);   // 키가 아직 없으면 조용히 구글로
+      return;
+    }
+
+    // SDK 로딩 전에는 구글 지도를 띄워두고, 준비되면 갈아끼운다.
+    googleMap(box, v, m);
+    const draw = provider === 'kakao' ? kakaoMap : naverMap;
+    draw(box, v, m).catch((err) => {
+      console.warn(`[map] ${provider} 지도를 불러오지 못해 구글 지도로 대체합니다.`, err);
+      googleMap(box, v, m);
+    });
+  }
+
   const v = CONFIG.venue;
   $('[data-venue-name]').textContent = `${v.name} ${v.hall}`;
   $('[data-venue-addr]').innerHTML   = `${v.address} ${v.addressDetail}<br />Tel. ${v.tel}`;
 
-  $('[data-map]').innerHTML =
-    `<iframe title="${v.name} 위치" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-       src="https://maps.google.com/maps?q=${v.lat},${v.lng}&z=16&hl=ko&output=embed"></iframe>`;
+  renderMap($('[data-map]'), v, CONFIG.map || {});
 
   const q = encodeURIComponent(v.name);
   $('[data-map-links]').innerHTML = `

@@ -41,10 +41,23 @@ scripts/              자리표시 이미지 생성기 (사진 넣으면 불필�
 
 ### 지도
 
-기본은 구글 지도 임베드(키 불필요)입니다. 카카오맵 임베드로 바꾸려면
-[Kakao Maps SDK](https://apis.map.kakao.com/) 키를 발급받아
-`js/main.js` 의 `[data-map]` 부분을 교체하면 됩니다. 아래 네이버/카카오/구글
-바로가기 버튼은 키 없이 그대로 동작합니다.
+`js/config.js` 의 `CONFIG.map.provider` 로 지도를 고릅니다 —
+`'kakao'` / `'naver'` / `'google'`.
+
+- **구글** — 키가 필요 없습니다. 다른 제공자의 키가 비어 있거나 로딩에
+  실패하면 여기로 자동 폴백하므로 지도가 빈 칸으로 남지 않습니다.
+- **카카오맵** — [developers.kakao.com](https://developers.kakao.com) 에서
+  앱을 만들고 **JavaScript 키**를 `kakaoAppKey` 에 넣은 뒤,
+  [앱 설정 → 플랫폼 → Web] 에 사이트 도메인
+  (`https://namgyujisu.github.io`, 로컬 확인용 `http://localhost:8000`) 을 등록.
+- **네이버 지도** — [console.ncloud.com](https://console.ncloud.com) 에서
+  Maps → Application 등록 → *Web Dynamic Map* 을 켜고 발급된 Client ID 를
+  `naverClientId` 에 넣고, 서비스 URL 에 위 도메인들을 등록.
+  (구 콘솔 키를 쓰면 `js/main.js` 의 `ncpKeyId` 를 `ncpClientId` 로 바꿔야
+  합니다.)
+
+도메인을 등록하지 않으면 키가 맞아도 지도가 뜨지 않으니 꼭 함께 해주세요.
+아래 네이버/카카오/구글 바로가기 버튼은 키 없이 그대로 동작합니다.
 
 ## 로컬에서 보기
 

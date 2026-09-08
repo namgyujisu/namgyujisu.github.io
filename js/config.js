@@ -63,6 +63,29 @@ const CONFIG = {
     ],
   },
 
+  /* ---------- 지도 ----------
+     provider 를 바꾸면 '오시는 길' 지도가 바뀝니다.
+       'kakao'  — 카카오맵  (kakaoAppKey 필요)
+       'naver'  — 네이버지도 (naverClientId 필요)
+       'google' — 구글지도  (키 불필요, 기본 폴백)
+     키가 비어 있거나 로딩에 실패하면 자동으로 구글 임베드로 대체되므로
+     키를 넣기 전에도 지도는 계속 보입니다.
+
+     · 카카오 키: https://developers.kakao.com → 내 애플리케이션 → 앱 키 →
+       "JavaScript 키". 그다음 [앱 설정 → 플랫폼 → Web] 에 사이트 도메인
+       (https://namgyujisu.github.io, 로컬 확인용 http://localhost:8000) 을 등록.
+     · 네이버 키: https://console.ncloud.com → Maps → Application 등록 →
+       "Web Dynamic Map" 사용 설정 후 발급되는 Client ID(인증 키).
+       마찬가지로 서비스 URL 에 위 도메인들을 등록해야 지도가 뜹니다.
+     ------------------------------------------------------------- */
+  map: {
+    provider: 'kakao',
+    kakaoAppKey: '259eb8c9d3544cad0d35b041bd1176dd',  // 카카오 JavaScript 키
+    naverClientId: '',  // TODO: 네이버 Client ID (인증 키)
+    zoom: 16,           // 네이버 · 구글 확대 단계 (클수록 확대)
+    kakaoLevel: 4,      // 카카오 확대 단계 (작을수록 확대)
+  },
+
   /* ---------- 인사말 ---------- */
   greeting: {
     poem: [
