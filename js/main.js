@@ -225,14 +225,14 @@
     map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 
     const marker = new kakao.maps.Marker({ map, position: center });
-    const label = new kakao.maps.InfoWindow({
+    new kakao.maps.InfoWindow({
       content: `<div style="padding:6px 10px;font-size:12px;white-space:nowrap">${v.name}</div>`,
-    });
-    label.open(map, marker);
+    }).open(map, marker);
 
-    // 마커를 누르면 카카오맵 앱/웹으로 길찾기.
+    // 마커를 누르면 카카오맵 장소 페이지로 (길찾기 · 로드뷰가 거기 다 있다).
     kakao.maps.event.addListener(marker, 'click', () => {
-      window.open(`https://map.kakao.com/?q=${encodeURIComponent(v.name)}`, '_blank', 'noopener');
+      window.open(v.kakaoPlaceUrl || `https://map.kakao.com/?q=${encodeURIComponent(v.name)}`,
+        '_blank', 'noopener');
     });
   }
 

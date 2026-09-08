@@ -33,8 +33,10 @@ const CONFIG = {
     address: '서울 강남구 봉은사로 637',
     addressDetail: '(삼성동 109-6)',
     tel: '02-540-0711',
-    lat: 37.5136,
-    lng: 127.0596,
+    // 카카오맵 장소 정보 기준 실좌표 (노블발렌티 삼성점, 봉은사로 637)
+    lat: 37.515334,
+    lng: 127.064832,
+    kakaoPlaceUrl: 'https://place.map.kakao.com/17157328',
     transport: [
       {
         icon: 'subway',
