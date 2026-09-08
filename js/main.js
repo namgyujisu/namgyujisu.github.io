@@ -405,8 +405,11 @@
           buttons: [{ title: sh.buttonText || '청첩장 보기', link }],
         });
       } catch (err) {
-        console.warn('[share] 카카오톡 공유 실패 — 링크 복사로 대체합니다.', err);
-        copyText(url);
+        // 콘솔에만 찍으면 휴대폰에서는 눌러도 아무 반응 없는 것처럼 보인다.
+        // 원인을 화면에 띄우고, 공유는 링크 복사로 물러난다.
+        console.warn('[share] 카카오톡 공유 실패', err);
+        showToast(`카카오톡 공유 실패: ${err && err.message ? err.message : err}`);
+        setTimeout(() => copyText(url), 2000);
       }
     });
   }
