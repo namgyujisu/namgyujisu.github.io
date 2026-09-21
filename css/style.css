@@ -450,6 +450,15 @@ h1, h2 { margin: 0; font-weight: 400; }
   filter: saturate(.82);
 }
 .map iframe { width: 100%; height: 100%; border: 0; filter: grayscale(.25); }
+
+/* 약도 이미지 모드. 이미지 비율이 그대로 살도록 고정 비율을 풀고,
+   채도 보정도 끈다 (약도는 이미 차분한 색이라 건드릴 게 없다). */
+.map--img {
+  aspect-ratio: auto;
+  filter: none;
+  background: var(--white);
+}
+.map--img img { display: block; width: 100%; height: auto; }
 /* 지도 위 예식장 이름표.
    지도 타일에 새겨진 글자(카카오가 서버에서 구워 보내는 고딕)와 나란히 놓여도
    튀지 않도록 같은 계열의 한글 고딕으로 맞춘다. 타일 글꼴 자체는 바꿀 수 없다. */

@@ -238,7 +238,7 @@
 
     // 마커를 누르면 카카오맵 장소 페이지로 (길찾기 · 로드뷰가 거기 다 있다).
     kakao.maps.event.addListener(marker, 'click', () => {
-      window.open(v.kakaoPlaceUrl || `https://map.kakao.com/?q=${encodeURIComponent(v.name)}`,
+      window.open(v.kakaoMapUrl || `https://map.kakao.com/?q=${encodeURIComponent(v.name)}`,
         '_blank', 'noopener');
     });
   }
@@ -271,6 +271,16 @@
 
   function renderMap(box, v, m) {
     const provider = m.provider || 'google';
+
+    // 약도 이미지. SDK 도 키도 도메인 등록도 필요 없고, 역 출구 번호처럼
+    // 하객이 실제로 찾는 정보가 지도 타일보다 잘 보인다.
+    if (provider === 'image' && m.image) {
+      box.classList.add('map--img');
+      box.innerHTML =
+        `<img src="${m.image}" alt="${v.name} 약도" loading="lazy" decoding="async" />`;
+      return;
+    }
+
     const key = provider === 'kakao' ? m.kakaoAppKey : provider === 'naver' ? m.naverClientId : null;
 
     if (provider === 'google' || !key) {
@@ -293,11 +303,18 @@
 
   renderMap($('[data-map]'), v, CONFIG.map || {});
 
+  // 하객이 길찾기에 실제로 쓰는 앱 세 가지. 검색어가 아니라 장소 페이지로
+  // 바로 보내므로 동명 업체가 잡히지 않는다.
   const q = encodeURIComponent(v.name);
-  $('[data-map-links]').innerHTML = `
-    <a class="map__link" href="https://map.naver.com/p/search/${q}" target="_blank" rel="noopener">네이버 지도</a>
-    <a class="map__link" href="https://map.kakao.com/?q=${q}" target="_blank" rel="noopener">카카오맵</a>
-    <a class="map__link" href="https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lng}" target="_blank" rel="noopener">구글 지도</a>`;
+  const MAP_LINKS = [
+    ['네이버 지도', v.naverMapUrl || `https://map.naver.com/p/search/${q}`],
+    ['카카오맵',    v.kakaoMapUrl || `https://map.kakao.com/?q=${q}`],
+    ['티맵',        v.tmapUrl     || `https://tmap.life/`],
+  ];
+  $('[data-map-links]').innerHTML = MAP_LINKS
+    .map(([label, href]) =>
+      `<a class="map__link" href="${href}" target="_blank" rel="noopener">${label}</a>`)
+    .join('');
 
   $('[data-transport]').innerHTML = v.transport
     .map((t) => `

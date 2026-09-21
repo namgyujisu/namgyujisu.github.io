@@ -36,7 +36,10 @@ const CONFIG = {
     // 카카오맵 장소 정보 기준 실좌표 (노블발렌티 삼성점, 봉은사로 637)
     lat: 37.515334,
     lng: 127.064832,
-    kakaoPlaceUrl: 'https://place.map.kakao.com/17157328',
+    // 지도앱 바로가기. 각 앱의 장소 페이지로 직접 연결된다.
+    kakaoMapUrl: 'https://place.map.kakao.com/17157328',
+    naverMapUrl: 'https://map.naver.com/?title=%EB%85%B8%EB%B8%94%EB%B0%9C%EB%A0%8C%ED%8B%B0%20%EC%82%BC%EC%84%B1%EC%A0%90&menu=location&app=Y&pinType=site&lng=127.0648868&appMenu=location&version=2&lat=37.5153463&pinId=12390329',
+    tmapUrl: 'https://tmap.life/7b38887a',
     transport: [
       {
         icon: 'subway',
@@ -67,6 +70,7 @@ const CONFIG = {
 
   /* ---------- 지도 ----------
      provider 를 바꾸면 '오시는 길' 지도가 바뀝니다.
+       'image'  — 예식장 약도 이미지 (기본값. 키도 SDK 도 필요 없다)
        'kakao'  — 카카오맵  (kakaoAppKey 필요)
        'naver'  — 네이버지도 (naverClientId 필요)
        'google' — 구글지도  (키 불필요, 기본 폴백)
@@ -81,7 +85,10 @@ const CONFIG = {
        마찬가지로 서비스 URL 에 위 도메인들을 등록해야 지도가 뜹니다.
      ------------------------------------------------------------- */
   map: {
-    provider: 'kakao',
+    // 'image'  — 예식장 약도 이미지 (키 불필요, 제일 가볍고 깔끔함)
+    provider: 'image',
+    image: 'images/venue-map.png',
+
     kakaoAppKey: '259eb8c9d3544cad0d35b041bd1176dd',  // 카카오 JavaScript 키
     naverClientId: '',  // TODO: 네이버 Client ID (인증 키)
     zoom: 16,           // 네이버 · 구글 확대 단계 (클수록 확대)
