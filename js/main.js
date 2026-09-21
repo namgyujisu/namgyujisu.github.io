@@ -338,14 +338,19 @@
   // 하객이 길찾기에 실제로 쓰는 앱 세 가지. 검색어가 아니라 장소 페이지로
   // 바로 보내므로 동명 업체가 잡히지 않는다.
   const q = encodeURIComponent(v.name);
+  // 아이콘은 각 앱스토어의 공식 앱 아이콘. 글자만 있을 때보다 어느 앱으로
+  // 가는지 한눈에 들어온다.
   const MAP_LINKS = [
-    ['네이버 지도', v.naverMapUrl || `https://map.naver.com/p/search/${q}`],
-    ['카카오맵',    v.kakaoMapUrl || `https://map.kakao.com/?q=${q}`],
-    ['티맵',        v.tmapUrl     || `https://tmap.life/`],
+    ['네이버 지도', v.naverMapUrl || `https://map.naver.com/p/search/${q}`, 'naver-map'],
+    ['카카오맵',    v.kakaoMapUrl || `https://map.kakao.com/?q=${q}`,      'kakao-map'],
+    ['티맵',        v.tmapUrl     || `https://tmap.life/`,                 'tmap'],
   ];
   $('[data-map-links]').innerHTML = MAP_LINKS
-    .map(([label, href]) =>
-      `<a class="map__link" href="${href}" target="_blank" rel="noopener">${label}</a>`)
+    .map(([label, href, icon]) => `
+      <a class="map__link" href="${href}" target="_blank" rel="noopener">
+        <img src="images/icons/${icon}.png" alt="" loading="lazy" decoding="async" />
+        <span>${label}</span>
+      </a>`)
     .join('');
 
   $('[data-transport]').innerHTML = v.transport
