@@ -22,6 +22,7 @@
     car:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M3 13l1.7-4.9A2 2 0 0 1 6.6 6.8h10.8a2 2 0 0 1 1.9 1.3L21 13v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4z"/><path d="M6.5 16h.01M17.5 16h.01M3 13h18"/></svg>',
     link:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>',
     share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>',
+    calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
     kakao: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.9 3 2.8 6.3 2.8 10.4c0 2.6 1.7 4.9 4.3 6.2l-1 3.8c-.1.3.3.6.6.4l4.5-3c.3 0 .5.1.8.1 5.1 0 9.2-3.3 9.2-7.5S17.1 3 12 3z"/></svg>',
   };
 
@@ -138,6 +139,37 @@
     else if (diff === 0) msg = `오늘은 ${names} 의 결혼식 날입니다.`;
     else                msg = `${names} 결혼한 지 <b>${-diff}일</b> 되었습니다.`;
     $('[data-dday]').innerHTML = msg;
+  })();
+
+  (function renderCalendarSave() {
+    const box = $('[data-calendar-save]');
+    if (!box) return;
+
+    // 애플 기기는 .ics 를 누르면 캘린더 앱이 바로 열린다. 그 외(안드로이드 ·
+    // PC)는 구글 캘린더 등록 화면으로 보내는 편이 확실하다. 안드로이드에서
+    // .ics 는 일단 파일로 받아진 뒤 한 번 더 눌러야 해서 중간에 포기한다.
+    const isApple = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent);
+
+    const pad = (n) => String(n).padStart(2, '0');
+    const utc = (h) => {
+      const d = new Date(Date.UTC(D.year, D.month - 1, D.day, h - 9, D.minute));
+      return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}` +
+             `T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}00Z`;
+    };
+
+    const v = CONFIG.venue;
+    const href = isApple ? 'invite.ics' : 'https://calendar.google.com/calendar/render?' + new URLSearchParams({
+      action:   'TEMPLATE',
+      text:     `${g.name} ♥ ${b.name} 결혼식`,
+      dates:    `${utc(D.hour)}/${utc(D.hour + 2)}`,
+      location: `${v.name} ${v.hall} (${v.address})`,
+      details:  `${v.address} ${v.addressDetail}\nTel. ${v.tel}\n\n${location.origin}/`,
+      ctz:      'Asia/Seoul',
+    });
+
+    box.innerHTML =
+      `<a class="cal__save-btn" href="${href}"${isApple ? ' download' : ' target="_blank" rel="noopener"'}>`
+      + `${ICON.calendar}<span>캘린더에 저장</span></a>`;
   })();
 
   /* =========================================================

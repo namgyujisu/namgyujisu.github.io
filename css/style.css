@@ -366,6 +366,23 @@ h1, h2 { margin: 0; font-weight: 400; }
 }
 .dday b { color: var(--gold); font-weight: 400; font-size: 15px; }
 
+.cal__save { margin-top: 20px; }
+.cal__save-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 11px 20px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  letter-spacing: .04em;
+  color: var(--ink-soft);
+  transition: background .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
+}
+.cal__save-btn svg { width: 15px; height: 15px; }
+.cal__save-btn:hover, .cal__save-btn:active {
+  background: var(--gold); border-color: var(--gold); color: var(--white);
+}
+
 /* =============================================================
    5. 갤러리
    ============================================================= */
