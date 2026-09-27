@@ -162,6 +162,14 @@ const CONFIG = {
     appId: '1:78598430429:web:9187e3809a133df1650534',
   },
 
+  /* ---------- 하객 사진 받기 (Firebase Storage) ---------- */
+  // FIREBASE.md 6장의 콘솔 설정(Blaze 전환 · Storage 생성 · 보안 규칙 게시)을
+  // 마친 뒤에 true 로 바꾸세요. false 인 동안에는 '사진 보내주세요' 섹션이
+  // 아예 보이지 않습니다. 준비 안 된 기능을 하객에게 보일 이유가 없습니다.
+  photos: {
+    enabled: false,
+  },
+
   // 미리보기 카드(og) 문구는 index.html 의 meta 태그에서 관리한다.
   // 스크래퍼는 JS 를 실행하지 않아 여기 값으로는 바꿀 수 없기 때문이다.
   share: {

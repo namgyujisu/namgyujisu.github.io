@@ -93,7 +93,25 @@
       <div class="gallery" data-gallery></div>
     </section>
 
-    <!-- ============ 6. 오시는 길 ============ -->
+    <!-- ============ 6. 하객 사진 보내기 ============ -->
+    <section class="section section--photos reveal">
+      <p class="section__label">YOUR PHOTOS</p>
+      <h2 class="section__title">사진 보내주세요</h2>
+      <p class="up__note">
+        찍어주신 사진을 보내주시면 소중히 간직하겠습니다.<br />
+        받은 사진은 저희 둘만 볼 수 있습니다.
+      </p>
+
+      <form class="up" data-up-form autocomplete="off">
+        <input class="up__input" name="name_" type="text" placeholder="보내는 분 이름 (선택)" maxlength="20" />
+        <input data-up-file type="file" accept="image/*" multiple hidden />
+        <button class="up__pick" type="button" data-up-pick>사진 고르기</button>
+        <div class="up__bar" data-up-bar hidden><span></span></div>
+        <p class="up__status" data-up-status></p>
+      </form>
+    </section>
+
+    <!-- ============ 7. 오시는 길 ============ -->
     <section class="section section--location reveal">
       <p class="section__label">LOCATION</p>
       <h2 class="section__title">오시는 길</h2>
@@ -108,7 +126,7 @@
       <div class="transport" data-transport></div>
     </section>
 
-    <!-- ============ 7. 마음 전하실 곳 ============ -->
+    <!-- ============ 8. 마음 전하실 곳 ============ -->
     <section class="section section--account reveal">
       <p class="section__label">GIFT</p>
       <h2 class="section__title">마음 전하실 곳</h2>
@@ -119,7 +137,7 @@
       <div class="accordion" data-accounts></div>
     </section>
 
-    <!-- ============ 8. 방명록 ============ -->
+    <!-- ============ 9. 방명록 ============ -->
     <section class="section section--guestbook reveal">
       <p class="section__label">GUESTBOOK</p>
       <h2 class="section__title">축하 메시지</h2>
@@ -142,7 +160,7 @@
       <ul class="gb__list" data-gb-list></ul>
     </section>
 
-    <!-- ============ 9. 공유하기 ============ -->
+    <!-- ============ 10. 공유하기 ============ -->
     <section class="section section--share reveal">
       <div class="share" data-share></div>
     </section>
@@ -175,5 +193,6 @@
 <script src="js/config.js"></script>
 <script src="js/main.js"></script>
 <script type="module" src="js/guestbook.js"></script>
+<script type="module" src="js/photos.js"></script>
 </body>
 </html>
