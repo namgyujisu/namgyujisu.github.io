@@ -2,3 +2,13 @@ node_modules/
 .DS_Store
 backup/
 *.swp
+
+# 서비스 계정 키 — 절대 커밋 금지.
+# 방명록과 참석자 명단을 전부 읽고 지울 수 있는 진짜 비밀키다.
+*wedding-key*.json
+*-firebase-adminsdk-*.json
+serviceAccount*.json
+
+# 하객 개인정보가 담긴 산출물. 이 저장소는 공개라 올라가면 그대로 노출된다.
+rsvp.csv
+guest-photos/
