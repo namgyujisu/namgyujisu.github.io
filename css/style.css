@@ -190,10 +190,13 @@ h1, h2 { margin: 0; font-weight: 400; }
   padding-bottom: 74px;   /* 좌우 패딩은 위 가운데 정렬 규칙이 담당 */
   text-align: center;
 }
-.section--contact,
+/* 섹션 순서대로 한 칸씩 번갈아 깔아 경계를 만든다.
+   info · date · rsvp · account · contact 가 짙은 쪽. */
+.section--info,
+.section--date,
 .section--rsvp,
-.section--gallery,
-.section--account { background: var(--bg-alt); }
+.section--account,
+.section--contact { background: var(--bg-alt); }
 
 .section__label {
   font-family: var(--font-ui);
@@ -659,7 +662,6 @@ h1, h2 { margin: 0; font-weight: 400; }
 /* =============================================================
    8. 방명록
    ============================================================= */
-.section--guestbook { background: var(--bg-alt); }
 
 .gb__note {
   margin-top: 26px;
