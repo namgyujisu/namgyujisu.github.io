@@ -176,8 +176,10 @@ const CONFIG = {
     enabled: true,
     // 이 날짜가 지나면 폼 대신 안내문만 보입니다 (예식 한 주 전 권장).
     deadline: '2027-10-10',
-    askMeal: true,   // 식사 여부를 물어볼지 (예식장 식수 집계용)
-    askPhone: true,  // 연락처를 받을지 (선택 입력)
+    askMeal: true,    // 식사 여부를 물어볼지 (예식장 식수 집계용)
+    // 연락처는 받지 않는다. 인원·식수 집계에 쓸모가 없고, 칸이 늘면
+    // 응답률만 떨어진다. 필요해지면 true 로 바꾸면 칸이 다시 생긴다.
+    askPhone: false,
   },
 
   // 미리보기 카드(og) 문구는 index.html 의 meta 태그에서 관리한다.
