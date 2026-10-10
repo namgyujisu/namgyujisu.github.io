@@ -367,7 +367,47 @@ h1, h2 { margin: 0; font-weight: 400; }
 }
 .dday b { color: var(--gold); font-weight: 400; font-size: 15px; }
 
-.cal__save { margin-top: 20px; }
+/* 예식 정보 카드 — 히어로 바로 아래. 날짜 · 장소 · 캘린더 저장을 한 덩어리로 */
+.section--info { padding-top: 54px; padding-bottom: 54px; }
+.info {
+  padding: 24px 22px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  text-align: left;
+}
+.info__row {
+  display: flex; align-items: baseline; gap: 14px;
+  padding: 12px 0;
+  border-top: 1px dashed var(--line);
+}
+.info__row:first-child { border-top: 0; padding-top: 2px; }
+.info__k {
+  flex: 0 0 38px;
+  font-family: var(--font-ui);
+  font-size: 11.5px;
+  letter-spacing: .1em;
+  color: var(--muted);
+}
+.info__v { flex: 1; text-align: right; font-size: 15px; line-height: 1.65; }
+.info__v em {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--font-ui);
+  font-style: normal;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.info .cal__save-btn {
+  display: flex; justify-content: center;
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 0;
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--white);
+}
+.info .cal__save-btn:hover, .info .cal__save-btn:active { opacity: .88; }
+
 .cal__save-btn {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 11px 20px;

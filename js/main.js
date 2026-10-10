@@ -37,6 +37,9 @@
   const hour12  = D.hour % 12 === 0 ? 12 : D.hour % 12;
   const minText = D.minute ? ` ${D.minute}분` : '';
 
+  const g = CONFIG.groom;
+  const b = CONFIG.bride;
+
   /* =========================================================
      1. HERO
      ========================================================= */
@@ -54,6 +57,27 @@
   };
 
   /* =========================================================
+     2. 예식 정보 — 날짜 · 장소 · 캘린더 저장을 맨 위 카드 하나로
+     하객이 가장 먼저 알아야 할 것이고, 스크롤을 내리기 전에 보여야 한다.
+     ========================================================= */
+  (function renderInfoCard() {
+    const v = CONFIG.venue;
+    // 교통편 첫 줄(지하철)을 한 줄 거리 안내로 빌려 쓴다
+    const near = (v.transport.find((t) => t.icon === 'subway') || { lines: [] }).lines[0] || v.address;
+
+    $('[data-info]').innerHTML = `
+      <div class="info__row">
+        <span class="info__k">일시</span>
+        <span class="info__v">${D.year}년 ${D.month}월 ${D.day}일 ${DOW_KR[WEDDING.getDay()]}요일 ${ampm} ${hour12}시${minText}</span>
+      </div>
+      <div class="info__row">
+        <span class="info__k">장소</span>
+        <span class="info__v">${v.name} ${v.hall}<em>${near}</em></span>
+      </div>
+      ${calSaveBtn()}`;
+  })();
+
+  /* =========================================================
      2. 인사말
      ========================================================= */
   $('[data-invite-poem]').innerHTML = CONFIG.greeting.poem.join('<br />');
@@ -62,8 +86,6 @@
     .join('<br />')
     .replace(/<br \/><span class="sp"><\/span><br \/>/g, '<span class="sp"></span>');
 
-  const g = CONFIG.groom;
-  const b = CONFIG.bride;
   $('[data-invite-parents]').innerHTML = `
     <p class="parents__row">
       ${honor(g.father)}<span class="dot">·</span>${honor(g.mother)}
@@ -164,9 +186,7 @@
     $('[data-dday]').innerHTML = msg;
   })();
 
-  (function renderCalendarSave() {
-    const box = $('[data-calendar-save]');
-    if (!box) return;
+  function calSaveBtn() {
 
     // 애플 기기는 .ics 를 누르면 캘린더 앱이 바로 열린다. 그 외(안드로이드 ·
     // PC)는 구글 캘린더 등록 화면으로 보내는 편이 확실하다. 안드로이드에서
@@ -190,10 +210,9 @@
       ctz:      'Asia/Seoul',
     });
 
-    box.innerHTML =
-      `<a class="cal__save-btn" href="${href}"${isApple ? ' download' : ' target="_blank" rel="noopener"'}>`
-      + `${ICON.calendar}<span>캘린더에 저장</span></a>`;
-  })();
+    return `<a class="cal__save-btn" href="${href}"${isApple ? ' download' : ' target="_blank" rel="noopener"'}>`
+      + `${ICON.calendar}<span>캘린더에 저장하기</span></a>`;
+  }
 
   /* =========================================================
      5. 갤러리 + 라이트박스
