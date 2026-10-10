@@ -18,8 +18,8 @@ const CONFIG = {
     nameEn: 'Jisu',
     role: '딸',              // 장녀 / 차녀 / 딸
     phone: '010-0000-0000',  // TODO
-    father: { name: '염○○', phone: '010-0000-0000' }, // TODO
-    mother: { name: '○○○', phone: '010-0000-0000' },  // TODO
+    father: { name: '염종옥', phone: '010-0000-0000' }, // TODO: 전화번호
+    mother: { name: '김미선', phone: '010-0000-0000' }, // TODO: 전화번호
   },
 
   /* ---------- 예식 일시 ---------- */
@@ -141,8 +141,8 @@ const CONFIG = {
       label: '신부측',
       list: [
         { relation: '신부', name: '염지수', bank: '○○은행', number: '000-0000-0000-00' }, // TODO
-        { relation: '아버지', name: '염○○', bank: '○○은행', number: '000-0000-0000-00' }, // TODO
-        { relation: '어머니', name: '○○○', bank: '○○은행', number: '000-0000-0000-00' }, // TODO
+        { relation: '아버지', name: '염종옥', bank: '○○은행', number: '000-0000-0000-00' }, // TODO
+        { relation: '어머니', name: '김미선', bank: '○○은행', number: '000-0000-0000-00' }, // TODO
       ],
     },
   },
