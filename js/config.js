@@ -8,7 +8,7 @@ const CONFIG = {
   groom: {
     name: '박남규',
     nameEn: 'Namgyu',
-    role: '아들',            // 장남 / 차남 / 아들
+    role: '장남',            // 누나가 있지만 아들 중 첫째
     phone: '010-0000-0000',  // TODO
     father: { name: '박준석', phone: '010-0000-0000' }, // TODO: 전화번호
     mother: { name: '주맹희', phone: '010-0000-0000' }, // TODO: 전화번호
@@ -16,7 +16,7 @@ const CONFIG = {
   bride: {
     name: '염지수',
     nameEn: 'Jisu',
-    role: '딸',              // 장녀 / 차녀 / 딸
+    role: '차녀',            // 언니가 있어 둘째 딸
     phone: '010-0000-0000',  // TODO
     father: { name: '염종옥', phone: '010-0000-0000' }, // TODO: 전화번호
     mother: { name: '김미선', phone: '010-0000-0000' }, // TODO: 전화번호
