@@ -57,27 +57,6 @@
   };
 
   /* =========================================================
-     2. 예식 정보 — 날짜 · 장소 · 캘린더 저장을 맨 위 카드 하나로
-     하객이 가장 먼저 알아야 할 것이고, 스크롤을 내리기 전에 보여야 한다.
-     ========================================================= */
-  (function renderInfoCard() {
-    const v = CONFIG.venue;
-    // 교통편 첫 줄(지하철)을 한 줄 거리 안내로 빌려 쓴다
-    const near = (v.transport.find((t) => t.icon === 'subway') || { lines: [] }).lines[0] || v.address;
-
-    $('[data-info]').innerHTML = `
-      <div class="info__row">
-        <span class="info__k">일시</span>
-        <span class="info__v">${D.year}년 ${D.month}월 ${D.day}일 ${DOW_KR[WEDDING.getDay()]}요일 ${ampm} ${hour12}시${minText}</span>
-      </div>
-      <div class="info__row">
-        <span class="info__k">장소</span>
-        <span class="info__v">${v.name} ${v.hall}<em>${near}</em></span>
-      </div>
-      ${calSaveBtn()}`;
-  })();
-
-  /* =========================================================
      2. 인사말
      ========================================================= */
   $('[data-invite-poem]').innerHTML = CONFIG.greeting.poem.join('<br />');
@@ -184,6 +163,11 @@
     else if (diff === 0) msg = `오늘은 ${names} 의 결혼식 날입니다.`;
     else                msg = `${names} 결혼한 지 <b>${-diff}일</b> 되었습니다.`;
     $('[data-dday]').innerHTML = msg;
+  })();
+
+  (function renderCalendarSave() {
+    const box = $('[data-calendar-save]');
+    if (box) box.innerHTML = calSaveBtn();
   })();
 
   function calSaveBtn() {
