@@ -10,8 +10,8 @@ const CONFIG = {
     nameEn: 'Namgyu',
     role: '아들',            // 장남 / 차남 / 아들
     phone: '010-0000-0000',  // TODO
-    father: { name: '박○○', phone: '010-0000-0000' }, // TODO
-    mother: { name: '○○○', phone: '010-0000-0000' },  // TODO
+    father: { name: '박준석', phone: '010-0000-0000' }, // TODO: 전화번호
+    mother: { name: '주맹희', phone: '010-0000-0000' }, // TODO: 전화번호
   },
   bride: {
     name: '염지수',
@@ -133,8 +133,8 @@ const CONFIG = {
       label: '신랑측',
       list: [
         { relation: '신랑', name: '박남규', bank: '○○은행', number: '000-0000-0000-00' }, // TODO
-        { relation: '아버지', name: '박○○', bank: '○○은행', number: '000-0000-0000-00' }, // TODO
-        { relation: '어머니', name: '○○○', bank: '○○은행', number: '000-0000-0000-00' }, // TODO
+        { relation: '아버지', name: '박준석', bank: '○○은행', number: '000-0000-0000-00' }, // TODO
+        { relation: '어머니', name: '주맹희', bank: '○○은행', number: '000-0000-0000-00' }, // TODO
       ],
     },
     bride: {

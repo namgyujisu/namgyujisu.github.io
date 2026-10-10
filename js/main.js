@@ -68,11 +68,19 @@
   /* =========================================================
      3. 연락하기
      ========================================================= */
-  const telBtns = (phone) => `
+  // 자리표시자(010-0000-0000)가 남아 있으면 버튼을 달지 않는다.
+  // 번호처럼 보이는데 누르면 엉뚱한 곳으로 거는 게 제일 나쁘다.
+  const hasTel = (phone) => {
+    const d = String(phone || '').replace(/\D/g, '');
+    // 앞 세 자리(010 · 02 …)를 뺀 나머지가 전부 0 이면 아직 안 채운 자리표시자다
+    return d.length >= 9 && !/^0+$/.test(d.slice(3));
+  };
+
+  const telBtns = (phone) => (hasTel(phone) ? `
     <span class="contact__actions">
       <a class="icon-btn" href="tel:${phone}" aria-label="전화하기">${ICON.phone}</a>
       <a class="icon-btn" href="sms:${phone}" aria-label="문자하기">${ICON.sms}</a>
-    </span>`;
+    </span>` : '');
 
   const contactCard = (side, person) => `
     <div class="contact__group">
@@ -95,7 +103,14 @@
       </div>
     </div>`;
 
-  $('[data-contact]').innerHTML = contactCard('GROOM 신랑', g) + contactCard('BRIDE 신부', b);
+  // 양가 통틀어 번호가 하나도 없으면 연락처 섹션은 이름만 남아 인사말과 겹친다.
+  // 그럴 땐 섹션을 통째로 감춘다.
+  const anyTel = [g, b].some((p) => [p, p.father, p.mother].some((x) => hasTel(x.phone)));
+  if (anyTel) {
+    $('[data-contact]').innerHTML = contactCard('GROOM 신랑', g) + contactCard('BRIDE 신부', b);
+  } else {
+    document.querySelector('.section--contact').hidden = true;
+  }
 
   /* =========================================================
      4. 예식 안내 — 달력 + D-day
