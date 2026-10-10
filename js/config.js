@@ -164,7 +164,7 @@ const CONFIG = {
 
   /* ---------- 참석여부 (Firebase Firestore) ---------- */
   // 방명록과 같은 무료 요금제로 동작합니다. Blaze 전환이 필요 없습니다.
-  // FIREBASE.md 7장의 보안 규칙을 게시한 뒤에 true 로 바꾸세요. 규칙 없이 켜면
+  // FIREBASE.md 6장의 보안 규칙을 게시한 뒤에 true 로 바꾸세요. 규칙 없이 켜면
   // 하객이 눌러도 저장되지 않습니다. false 인 동안에는 섹션이 보이지 않습니다.
   rsvp: {
     enabled: false,
@@ -172,14 +172,6 @@ const CONFIG = {
     deadline: '2027-10-10',
     askMeal: true,   // 식사 여부를 물어볼지 (예식장 식수 집계용)
     askPhone: true,  // 연락처를 받을지 (선택 입력)
-  },
-
-  /* ---------- 하객 사진 받기 (Firebase Storage) ---------- */
-  // FIREBASE.md 6장의 콘솔 설정(Blaze 전환 · Storage 생성 · 보안 규칙 게시)을
-  // 마친 뒤에 true 로 바꾸세요. false 인 동안에는 '사진 보내주세요' 섹션이
-  // 아예 보이지 않습니다. 준비 안 된 기능을 하객에게 보일 이유가 없습니다.
-  photos: {
-    enabled: false,
   },
 
   // 미리보기 카드(og) 문구는 index.html 의 meta 태그에서 관리한다.

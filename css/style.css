@@ -664,66 +664,6 @@ h1, h2 { margin: 0; font-weight: 400; }
 .gb__submit:hover { opacity: .88; }
 .gb__submit:disabled { opacity: .5; cursor: default; }
 
-/* =============================================================
-   6. 하객 사진 보내기
-   ============================================================= */
-.up__note {
-  margin-top: 14px;
-  font-size: 13px;
-  line-height: 2;
-  color: var(--ink-soft);
-}
-.up { margin-top: 26px; }
-.up__input {
-  width: 100%;
-  padding: 13px 14px;
-  border: 1px solid var(--line);
-  border-radius: 0;
-  background: var(--white);
-  color: var(--ink);
-  font-family: var(--font-ui);
-  font-size: 13.5px;
-  -webkit-appearance: none;
-  transition: border-color .25s var(--ease);
-}
-.up__input::placeholder { color: #b8afa3; }
-.up__input:focus { outline: none; border-color: var(--gold); }
-.up__pick {
-  width: 100%;
-  margin-top: 8px;
-  padding: 14px 0;
-  background: var(--gold);
-  color: var(--white);
-  font-family: var(--font-ui);
-  font-size: 13.5px;
-  letter-spacing: .08em;
-  transition: opacity .25s var(--ease);
-}
-.up__pick:hover { opacity: .88; }
-.up__pick:disabled { opacity: .5; cursor: default; }
-
-.up__bar {
-  height: 2px;
-  margin-top: 14px;
-  background: var(--line);
-  overflow: hidden;
-}
-.up__bar span {
-  display: block;
-  width: 0;
-  height: 100%;
-  background: var(--gold);
-  transition: width .2s var(--ease);
-}
-.up__status {
-  margin-top: 12px;
-  min-height: 1em;
-  font-family: var(--font-ui);
-  font-size: 12.5px;
-  line-height: 1.8;
-  color: var(--ink-soft);
-}
-
 .gb__empty {
   margin-top: 30px;
   font-size: 13px;
