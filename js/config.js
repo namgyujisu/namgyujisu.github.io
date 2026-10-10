@@ -173,7 +173,7 @@ const CONFIG = {
   // FIREBASE.md 6장의 보안 규칙을 게시한 뒤에 true 로 바꾸세요. 규칙 없이 켜면
   // 하객이 눌러도 저장되지 않습니다. false 인 동안에는 섹션이 보이지 않습니다.
   rsvp: {
-    enabled: false,
+    enabled: true,
     // 이 날짜가 지나면 폼 대신 안내문만 보입니다 (예식 한 주 전 권장).
     deadline: '2027-10-10',
     askMeal: true,   // 식사 여부를 물어볼지 (예식장 식수 집계용)
