@@ -733,7 +733,8 @@ h1, h2 { margin: 0; font-weight: 400; }
   color: var(--ink-soft);
 }
 
-.rsvp { margin-top: 30px; text-align: left; }
+.rsvp__fold { margin-top: 26px; text-align: left; }
+.rsvp { padding: 20px 18px; text-align: left; }
 .rsvp__field { margin-top: 18px; }
 .rsvp__field:first-child { margin-top: 0; }
 .rsvp__field[hidden], [data-rsvp-yes][hidden] { display: none; }
@@ -824,7 +825,7 @@ select.rsvp__input {
   text-align: center;
 }
 
-.rsvp__done { margin-top: 30px; }
+.rsvp__done { padding: 26px 18px; text-align: center; }
 .rsvp__done[hidden] { display: none; }
 .rsvp__done-msg {
   font-size: 13.5px;

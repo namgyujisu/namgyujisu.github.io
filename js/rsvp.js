@@ -22,6 +22,9 @@ const doneEl   = $('[data-rsvp-done]');
 const doneMsgEl = $('[data-rsvp-done-msg]');
 const againEl  = $('[data-rsvp-again]');
 const yesEl    = $('[data-rsvp-yes]');
+const foldEl   = $('[data-rsvp-fold]');
+const toggleEl = $('[data-rsvp-toggle]');
+const panelEl  = $('[data-rsvp-panel]');
 const mealEl   = $('[data-rsvp-meal]');
 const phoneEl  = $('[data-rsvp-phone]');
 
@@ -34,6 +37,18 @@ if (!CONFIG.rsvp || !CONFIG.rsvp.enabled
 }
 
 section.hidden = false;
+
+/* ---------- 펼치기 ----------
+   폼을 통째로 펼쳐두면 섹션이 길고 어수선해진다. '마음 전하실 곳' 과 같은
+   방식으로 접어두고, 누를 때만 연다. 접힌 동안에는 inert 로 막아
+   눈에 안 보이는 입력칸에 탭으로 커서가 들어가는 일이 없게 한다. */
+const setOpen = (open) => {
+  foldEl.classList.toggle('is-open', open);
+  toggleEl.setAttribute('aria-expanded', String(open));
+  if (open) panelEl.removeAttribute('inert');
+  else panelEl.setAttribute('inert', '');
+};
+toggleEl.addEventListener('click', () => setOpen(!foldEl.classList.contains('is-open')));
 
 /* ---------- 마감 확인 ----------
    deadline 은 '그 날까지 받는다'는 뜻이라 당일 자정까지 열어둔다. */
@@ -127,6 +142,6 @@ formEl.addEventListener('submit', async (e) => {
     statusEl.textContent = '전달하지 못했습니다. 잠시 후 다시 시도해 주세요.';
   } finally {
     btn.disabled = false;
-    btn.textContent = '참석 여부 전달하기';
+    btn.textContent = '전달하기';
   }
 });

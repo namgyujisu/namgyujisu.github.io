@@ -95,6 +95,12 @@
         참석 여부를 미리 알려주시면 감사하겠습니다.
       </p>
 
+      <div class="acc__item rsvp__fold" data-rsvp-fold>
+        <button type="button" class="acc__head" data-rsvp-toggle aria-expanded="false">
+          <span>참석 여부 전달하기</span><span class="chev"></span>
+        </button>
+        <div class="acc__body"><div class="acc__inner" data-rsvp-panel inert>
+
       <form class="rsvp" data-rsvp-form autocomplete="off">
         <div class="rsvp__field">
           <span class="rsvp__legend">어느 분의 하객이신가요?</span>
@@ -169,7 +175,7 @@
                     placeholder="알려주실 내용이 있으면 적어주세요" maxlength="200" rows="2"></textarea>
         </div>
 
-        <button class="rsvp__submit" type="submit" data-rsvp-submit>참석 여부 전달하기</button>
+        <button class="rsvp__submit" type="submit" data-rsvp-submit>전달하기</button>
         <p class="rsvp__status" data-rsvp-status></p>
       </form>
 
@@ -177,6 +183,9 @@
       <div class="rsvp__done" data-rsvp-done hidden>
         <p class="rsvp__done-msg" data-rsvp-done-msg></p>
         <button class="rsvp__again" type="button" data-rsvp-again hidden>다시 작성하기</button>
+      </div>
+
+        </div></div>
       </div>
     </section>
 
