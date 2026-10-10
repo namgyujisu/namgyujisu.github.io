@@ -14,9 +14,12 @@
 const fs = require('fs');
 const path = require('path');
 
-let admin;
+/* firebase-admin 14 부터는 예전 admin.credential.cert 방식이 사라지고
+   하위 경로에서 가져오는 모듈식 API 만 남았다. */
+let initializeApp, cert, getFirestore;
 try {
-  admin = require('firebase-admin');
+  ({ initializeApp, cert } = require('firebase-admin/app'));
+  ({ getFirestore } = require('firebase-admin/firestore'));
 } catch {
   console.error('firebase-admin 이 없습니다. 먼저 설치해 주세요:\n  npm install firebase-admin');
   process.exit(1);
@@ -33,8 +36,8 @@ if (!keyPath || !fs.existsSync(keyPath)) {
 const src = fs.readFileSync(path.join(__dirname, '..', 'js', 'config.js'), 'utf8');
 const CONFIG = new Function('window', `${src}; return CONFIG;`)({});
 
-admin.initializeApp({
-  credential: admin.credential.cert(require(path.resolve(keyPath))),
+initializeApp({
+  credential: cert(require(path.resolve(keyPath))),
   projectId: CONFIG.firebase && CONFIG.firebase.projectId,
 });
 
@@ -52,7 +55,7 @@ const fmt = (ts) => {
 };
 
 (async () => {
-  const snap = await admin.firestore().collection('rsvp').orderBy('createdAt').get();
+  const snap = await getFirestore().collection('rsvp').orderBy('createdAt').get();
   if (snap.empty) {
     console.log('아직 전달된 참석 여부가 없습니다.');
     return;
