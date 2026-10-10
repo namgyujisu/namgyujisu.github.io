@@ -18,9 +18,15 @@ const CONFIG = {
     nameEn: 'Jisu',
     role: '차녀',            // 언니가 있어 둘째 딸
     phone: '010-0000-0000',  // TODO
-    father: { name: '염종옥', phone: '010-0000-0000' }, // TODO: 전화번호
+    // deceased: true 면 성함 앞에 故 가 붙고, 연락하기에서는 빠집니다.
+    father: { name: '염종옥', deceased: true },
     mother: { name: '김미선', phone: '010-0000-0000' }, // TODO: 전화번호
   },
+
+  // 돌아가신 혼주(deceased: true) 를 어떻게 표기할지.
+  //   'flower' — 성함 앞에 국화 문양
+  //   '故'     — 성함 앞에 故 글자
+  deceasedMark: 'flower',
 
   /* ---------- 예식 일시 ---------- */
   // 2027년 10월 17일 일요일 오후 1시 (확정). hour 는 24시간제.

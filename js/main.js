@@ -23,6 +23,7 @@
     link:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>',
     share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>',
     calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+    chrysanthemum: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"><ellipse cx="12" cy="6.6" rx="1.8" ry="3.2" transform="rotate(0 12 12)"/><ellipse cx="12" cy="6.6" rx="1.8" ry="3.2" transform="rotate(45 12 12)"/><ellipse cx="12" cy="6.6" rx="1.8" ry="3.2" transform="rotate(90 12 12)"/><ellipse cx="12" cy="6.6" rx="1.8" ry="3.2" transform="rotate(135 12 12)"/><ellipse cx="12" cy="6.6" rx="1.8" ry="3.2" transform="rotate(180 12 12)"/><ellipse cx="12" cy="6.6" rx="1.8" ry="3.2" transform="rotate(225 12 12)"/><ellipse cx="12" cy="6.6" rx="1.8" ry="3.2" transform="rotate(270 12 12)"/><ellipse cx="12" cy="6.6" rx="1.8" ry="3.2" transform="rotate(315 12 12)"/><circle cx="12" cy="12" r="2.1"/></svg>',
     kakao: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.9 3 2.8 6.3 2.8 10.4c0 2.6 1.7 4.9 4.3 6.2l-1 3.8c-.1.3.3.6.6.4l4.5-3c.3 0 .5.1.8.1 5.1 0 9.2-3.3 9.2-7.5S17.1 3 12 3z"/></svg>',
   };
 
@@ -44,6 +45,14 @@
   $('[data-hero-venue]').textContent =
     `${ampm} ${hour12}시${minText} · ${CONFIG.venue.name}`;
 
+  // 돌아가신 혼주는 성함 앞에 故 를 붙인다
+  const honor = (p) => {
+    if (!p.deceased) return p.name;
+    return CONFIG.deceasedMark === '故'
+      ? `故 ${p.name}`
+      : `<span class="honor" role="img" aria-label="고(故)">${ICON.chrysanthemum}</span>${p.name}`;
+  };
+
   /* =========================================================
      2. 인사말
      ========================================================= */
@@ -57,11 +66,11 @@
   const b = CONFIG.bride;
   $('[data-invite-parents]').innerHTML = `
     <p class="parents__row">
-      ${g.father.name}<span class="dot">·</span>${g.mother.name}
+      ${honor(g.father)}<span class="dot">·</span>${honor(g.mother)}
       <span class="rel">의 ${g.role}</span><span class="child">${g.name}</span>
     </p>
     <p class="parents__row">
-      ${b.father.name}<span class="dot">·</span>${b.mother.name}
+      ${honor(b.father)}<span class="dot">·</span>${honor(b.mother)}
       <span class="rel">의 ${b.role}</span><span class="child">${b.name}</span>
     </p>`;
 
@@ -91,14 +100,13 @@
           ${telBtns(person.phone)}
         </div>
         <div class="contact__parents">
+          ${[['아버지', person.father], ['어머니', person.mother]]
+            .filter(([, x]) => !x.deceased)
+            .map(([rel, x]) => `
           <div class="contact__parent">
-            <span class="rel">아버지</span>
-            <span class="row">${person.father.name}${telBtns(person.father.phone)}</span>
-          </div>
-          <div class="contact__parent">
-            <span class="rel">어머니</span>
-            <span class="row">${person.mother.name}${telBtns(person.mother.phone)}</span>
-          </div>
+            <span class="rel">${rel}</span>
+            <span class="row">${x.name}${telBtns(x.phone)}</span>
+          </div>`).join('')}
         </div>
       </div>
     </div>`;
