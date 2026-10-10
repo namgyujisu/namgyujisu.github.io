@@ -379,13 +379,20 @@
   /* =========================================================
      7. 마음 전하실 곳
      ========================================================= */
+  // 계좌번호는 숫자가 전부 0 이면 아직 안 채운 자리표시자다. 복사해 가면
+  // 송금이 실패하므로, 채워진 것만 보여주고 하나도 없으면 섹션을 감춘다.
+  const hasAcc = (a) => {
+    const d = String(a.number || '').replace(/\D/g, '');
+    return d.length >= 8 && !/^0+$/.test(d);
+  };
+
   const accSection = (key, data) => `
     <div class="acc__item" data-acc>
       <button type="button" class="acc__head" data-acc-head aria-expanded="false">
         <span>${data.label} 마음 전하실 곳</span><span class="chev"></span>
       </button>
       <div class="acc__body"><div class="acc__inner">
-        ${data.list.map((a) => `
+        ${data.list.filter(hasAcc).map((a) => `
           <div class="acc__row">
             <span class="acc__who">${a.relation}<b>${a.name}</b></span>
             <span class="acc__num">${a.bank}<br />${a.number}</span>
@@ -394,8 +401,15 @@
       </div></div>
     </div>`;
 
-  $('[data-accounts]').innerHTML =
-    accSection('groom', CONFIG.accounts.groom) + accSection('bride', CONFIG.accounts.bride);
+  // 한쪽만 채워졌으면 그쪽만, 양쪽 다 비었으면 섹션을 통째로 감춘다
+  const accSides = [['groom', CONFIG.accounts.groom], ['bride', CONFIG.accounts.bride]]
+    .filter(([, data]) => data.list.some(hasAcc));
+
+  if (accSides.length) {
+    $('[data-accounts]').innerHTML = accSides.map(([key, data]) => accSection(key, data)).join('');
+  } else {
+    document.querySelector('.section--account').hidden = true;
+  }
 
   $('[data-accounts]').addEventListener('click', (e) => {
     const head = e.target.closest('[data-acc-head]');
