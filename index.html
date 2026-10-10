@@ -86,14 +86,108 @@
       <div class="cal__save" data-calendar-save></div>
     </section>
 
-    <!-- ============ 5. 갤러리 ============ -->
+    <!-- ============ 5. 참석여부 ============ -->
+    <section class="section section--rsvp reveal" hidden>
+      <p class="section__label">R.S.V.P</p>
+      <h2 class="section__title">참석 여부 전달</h2>
+      <p class="rsvp__note">
+        찾아와 주시는 분들을 귀하게 모실 수 있도록<br />
+        참석 여부를 미리 알려주시면 감사하겠습니다.
+      </p>
+
+      <form class="rsvp" data-rsvp-form autocomplete="off">
+        <div class="rsvp__field">
+          <span class="rsvp__legend">어느 분의 하객이신가요?</span>
+          <div class="rsvp__pills">
+            <label class="rsvp__pill">
+              <input type="radio" name="side" value="groom" checked /><span>신랑측</span>
+            </label>
+            <label class="rsvp__pill">
+              <input type="radio" name="side" value="bride" /><span>신부측</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="rsvp__field">
+          <span class="rsvp__legend">참석하실 수 있으신가요?</span>
+          <div class="rsvp__pills">
+            <label class="rsvp__pill">
+              <input type="radio" name="attending" value="yes" checked /><span>참석합니다</span>
+            </label>
+            <label class="rsvp__pill">
+              <input type="radio" name="attending" value="no" /><span>참석이 어렵습니다</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="rsvp__field">
+          <label class="rsvp__legend" for="rsvp-name">성함</label>
+          <input class="rsvp__input" id="rsvp-name" name="name_" type="text"
+                 placeholder="성함을 입력해 주세요" maxlength="20" required />
+        </div>
+
+        <!-- 참석일 때만 묻는 항목 -->
+        <div data-rsvp-yes>
+          <div class="rsvp__field">
+            <label class="rsvp__legend" for="rsvp-count">총 참석 인원 (본인 포함)</label>
+            <select class="rsvp__input" id="rsvp-count" name="count">
+              <option value="1">1명</option>
+              <option value="2">2명</option>
+              <option value="3">3명</option>
+              <option value="4">4명</option>
+              <option value="5">5명</option>
+              <option value="6">6명</option>
+              <option value="7">7명</option>
+              <option value="8">8명</option>
+              <option value="9">9명</option>
+              <option value="10">10명 이상</option>
+            </select>
+          </div>
+
+          <div class="rsvp__field" data-rsvp-meal>
+            <span class="rsvp__legend">식사 여부</span>
+            <div class="rsvp__pills">
+              <label class="rsvp__pill">
+                <input type="radio" name="meal" value="예정" checked /><span>식사 예정</span>
+              </label>
+              <label class="rsvp__pill">
+                <input type="radio" name="meal" value="안함" /><span>식사 안 함</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="rsvp__field" data-rsvp-phone>
+          <label class="rsvp__legend" for="rsvp-phone">연락처 <em>(선택)</em></label>
+          <input class="rsvp__input" id="rsvp-phone" name="phone" type="tel"
+                 placeholder="010-0000-0000" maxlength="20" />
+        </div>
+
+        <div class="rsvp__field">
+          <label class="rsvp__legend" for="rsvp-note">전하실 말씀 <em>(선택)</em></label>
+          <textarea class="rsvp__input rsvp__textarea" id="rsvp-note" name="note"
+                    placeholder="알려주실 내용이 있으면 적어주세요" maxlength="200" rows="2"></textarea>
+        </div>
+
+        <button class="rsvp__submit" type="submit" data-rsvp-submit>참석 여부 전달하기</button>
+        <p class="rsvp__status" data-rsvp-status></p>
+      </form>
+
+      <!-- 전달 완료 / 마감 안내가 들어갈 자리 -->
+      <div class="rsvp__done" data-rsvp-done hidden>
+        <p class="rsvp__done-msg" data-rsvp-done-msg></p>
+        <button class="rsvp__again" type="button" data-rsvp-again hidden>다시 작성하기</button>
+      </div>
+    </section>
+
+    <!-- ============ 6. 갤러리 ============ -->
     <section class="section section--gallery reveal">
       <p class="section__label">GALLERY</p>
       <h2 class="section__title">우리의 순간</h2>
       <div class="gallery" data-gallery></div>
     </section>
 
-    <!-- ============ 6. 하객 사진 보내기 ============ -->
+    <!-- ============ 7. 하객 사진 보내기 ============ -->
     <section class="section section--photos reveal">
       <p class="section__label">YOUR PHOTOS</p>
       <h2 class="section__title">사진 보내주세요</h2>
@@ -111,7 +205,7 @@
       </form>
     </section>
 
-    <!-- ============ 7. 오시는 길 ============ -->
+    <!-- ============ 8. 오시는 길 ============ -->
     <section class="section section--location reveal">
       <p class="section__label">LOCATION</p>
       <h2 class="section__title">오시는 길</h2>
@@ -126,7 +220,7 @@
       <div class="transport" data-transport></div>
     </section>
 
-    <!-- ============ 8. 마음 전하실 곳 ============ -->
+    <!-- ============ 9. 마음 전하실 곳 ============ -->
     <section class="section section--account reveal">
       <p class="section__label">GIFT</p>
       <h2 class="section__title">마음 전하실 곳</h2>
@@ -137,7 +231,7 @@
       <div class="accordion" data-accounts></div>
     </section>
 
-    <!-- ============ 9. 방명록 ============ -->
+    <!-- ============ 10. 방명록 ============ -->
     <section class="section section--guestbook reveal">
       <p class="section__label">GUESTBOOK</p>
       <h2 class="section__title">축하 메시지</h2>
@@ -160,7 +254,7 @@
       <ul class="gb__list" data-gb-list></ul>
     </section>
 
-    <!-- ============ 10. 공유하기 ============ -->
+    <!-- ============ 11. 공유하기 ============ -->
     <section class="section section--share reveal">
       <div class="share" data-share></div>
     </section>
@@ -193,6 +287,7 @@
 <script src="js/config.js"></script>
 <script src="js/main.js"></script>
 <script type="module" src="js/guestbook.js"></script>
+<script type="module" src="js/rsvp.js"></script>
 <script type="module" src="js/photos.js"></script>
 </body>
 </html>
