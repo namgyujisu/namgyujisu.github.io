@@ -93,7 +93,7 @@ againEl.addEventListener('click', () => {
 /* 고른 숫자는 '동행인 수' 인데 저장은 본인 포함 총 인원으로 한다.
    헷갈리기 쉬운 지점이라 고른 즉시 몇 명으로 기록되는지 보여준다. */
 const total = () => Number(formEl.count.value || 0) + 1;
-const syncTotal = () => { totalEl.textContent = `본인 포함 총 ${total()}명으로 기록됩니다.`; };
+const syncTotal = () => { totalEl.textContent = `본인 포함 ${total()}명으로 기록됩니다.`; };
 
 const syncFields = () => {
   const yes = formEl.attending.value === 'yes';
