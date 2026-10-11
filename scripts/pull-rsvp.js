@@ -82,7 +82,8 @@ const fmt = (ts) => {
   const yes = rows.filter((r) => r.attending);
   const sum = (list) => list.reduce((acc, r) => acc + (Number(r.count) || 0), 0);
   const bySide = (s) => yes.filter((r) => r.side === s);
-  const meals = sum(yes.filter((r) => r.meal === '예정'));
+  const meals    = sum(yes.filter((r) => r.meal === '예정'));
+  const mealsTbd = sum(yes.filter((r) => r.meal === '미정'));
 
   const line = (label, value) => console.log(`  ${label.padEnd(18, ' ')}${value}`);
 
@@ -91,8 +92,9 @@ const fmt = (ts) => {
   line('신부측 참석 인원', `${sum(bySide('bride'))}명 (${bySide('bride').length}팀)`);
   line('총 참석 인원', `${sum(yes)}명`);
   line('식사 예정 인원', `${meals}명`);
+  line('식사 미정 인원', `${mealsTbd}명`);
   console.log(`\n명단 저장: ${outPath}`);
-  console.log('식수는 "식사 예정 인원" 을 예식장에 알려주시면 됩니다.');
+  console.log(`식수는 ${meals}명 ~ ${meals + mealsTbd}명 사이로 보시면 됩니다 (미정 포함).`);
   console.log('실제 참석은 응답보다 적게 오는 편이라, 예식장과 상의해 여유를 두세요.\n');
 })().catch((err) => {
   console.error('\n실패했습니다:', err.message);

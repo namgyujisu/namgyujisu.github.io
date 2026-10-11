@@ -14,6 +14,11 @@
   --gold:        #b09a72;   /* 포인트 */
   --white:       #ffffff;
 
+  /* 참석여부에서 신랑측 · 신부측을 색으로 가른다. 청첩장 톤에 맞춰
+     원색 대신 한 톤 눌린 남색과 자줏빛 붉은색을 쓴다. */
+  --side-groom:  #51749f;
+  --side-bride:  #b06a78;
+
   --font-kr:     'Gowun Batang', 'Apple SD Gothic Neo', serif;
   --font-en:     'Cormorant Garamond', 'Gowun Batang', serif;
   --font-ui:     'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
@@ -764,6 +769,7 @@ h1, h2 { margin: 0; font-weight: 400; }
 /* 라디오는 숨기고 알약 모양 버튼처럼 보이게 한다. 모바일에서 손가락으로
    누르기 쉬운 크기가 작은 동그라미보다 훨씬 낫다. */
 .rsvp__pills { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.rsvp__pills--3 { grid-template-columns: repeat(3, 1fr); }
 .rsvp__pill { position: relative; display: block; cursor: pointer; }
 .rsvp__pill input {
   position: absolute;
@@ -787,6 +793,16 @@ h1, h2 { margin: 0; font-weight: 400; }
   background: var(--gold);
   color: var(--white);
 }
+/* 신랑측 · 신부측만 금색 대신 각자의 색으로 칠한다 */
+.rsvp__pill input[value="groom"]:checked + span {
+  border-color: var(--side-groom);
+  background: var(--side-groom);
+}
+.rsvp__pill input[value="bride"]:checked + span {
+  border-color: var(--side-bride);
+  background: var(--side-bride);
+}
+
 /* 키보드로 이동할 때도 어디에 있는지 보이게 한다 */
 .rsvp__pill input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
 
