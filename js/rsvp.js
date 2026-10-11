@@ -27,6 +27,7 @@ const toggleEl = $('[data-rsvp-toggle]');
 const panelEl  = $('[data-rsvp-panel]');
 const mealEl   = $('[data-rsvp-meal]');
 const phoneEl  = $('[data-rsvp-phone]');
+const totalEl  = $('[data-rsvp-total]');
 
 /* 섹션은 hidden 으로 시작한다. 설정이 꺼져 있거나 firebase 가 비어 있으면
    그대로 감춘 채 끝낸다. 저장이 안 되는 폼을 보여주면 하객은 전달됐다고
@@ -89,6 +90,11 @@ againEl.addEventListener('click', () => {
 });
 
 /* ---------- 참석/불참에 따라 묻는 항목을 바꾼다 ---------- */
+/* 고른 숫자는 '동행인 수' 인데 저장은 본인 포함 총 인원으로 한다.
+   헷갈리기 쉬운 지점이라 고른 즉시 몇 명으로 기록되는지 보여준다. */
+const total = () => Number(formEl.count.value || 0) + 1;
+const syncTotal = () => { totalEl.textContent = `본인 포함 총 ${total()}명으로 기록됩니다.`; };
+
 const syncFields = () => {
   const yes = formEl.attending.value === 'yes';
   yesEl.hidden = !yes;
@@ -98,8 +104,10 @@ const syncFields = () => {
 };
 formEl.addEventListener('change', (e) => {
   if (e.target.name === 'attending') syncFields();
+  if (e.target.name === 'count') syncTotal();
 });
 syncFields();
+syncTotal();
 
 /* ---------- 전달하기 ---------- */
 const col = collection(
@@ -127,7 +135,8 @@ formEl.addEventListener('submit', async (e) => {
       side: formEl.side.value,                                   // groom | bride
       name,
       attending: yes,
-      count: yes ? Number(formEl.count.value) : 0,
+      count: yes ? total() : 0,                                  // 본인 포함
+      companions: yes ? formEl.companions.value.trim() : '',
       meal: yes && CONFIG.rsvp.askMeal ? formEl.meal.value : '',
       phone: CONFIG.rsvp.askPhone ? formEl.phone.value.trim() : '',
       note: formEl.note.value.trim(),

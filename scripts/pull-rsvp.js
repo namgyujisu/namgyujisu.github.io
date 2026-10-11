@@ -63,11 +63,12 @@ const fmt = (ts) => {
 
   const rows = snap.docs.map((d) => d.data());
 
-  const head = ['보낸시각', '구분', '성함', '참석', '인원', '식사', '연락처', '전하실 말씀'];
+  const head = ['보낸시각', '구분', '성함', '동행인', '참석', '인원', '식사', '연락처', '전하실 말씀'];
   const csv = [head, ...rows.map((r) => [
     fmt(r.createdAt),
     SIDE[r.side] || r.side,
     r.name,
+    r.companions,
     r.attending ? '참석' : '불참',
     r.attending ? r.count : '',
     r.meal,

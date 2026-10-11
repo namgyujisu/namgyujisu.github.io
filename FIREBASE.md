@@ -117,12 +117,14 @@ service cloud.firestore {
       allow read, update, delete: if false;
 
       allow create: if request.resource.data.keys().hasOnly(
-                         ['side', 'name', 'attending', 'count',
+                         ['side', 'name', 'companions', 'attending', 'count',
                           'meal', 'phone', 'note', 'createdAt'])
                     && request.resource.data.side in ['groom', 'bride']
                     && request.resource.data.name is string
                     && request.resource.data.name.size() > 0
                     && request.resource.data.name.size() <= 20
+                    && request.resource.data.companions is string
+                    && request.resource.data.companions.size() <= 200
                     && request.resource.data.attending is bool
                     && request.resource.data.count is int
                     && request.resource.data.count >= 0

@@ -143,8 +143,16 @@
         <!-- 참석일 때만 묻는 항목 -->
         <div data-rsvp-yes>
           <div class="rsvp__field">
-            <label class="rsvp__legend" for="rsvp-count">총 참석 인원 (본인 포함)</label>
+            <label class="rsvp__legend" for="rsvp-with">동행인 성함 <em>(선택)</em></label>
+            <input class="rsvp__input" id="rsvp-with" name="companions" type="text"
+                   placeholder="함께 오시는 분" maxlength="200" />
+            <p class="rsvp__help">여러 명일 경우 쉼표(,)로 구분해 작성해주세요</p>
+          </div>
+
+          <div class="rsvp__field">
+            <label class="rsvp__legend" for="rsvp-count">동행인 수 <em>(본인 제외)</em></label>
             <select class="rsvp__input" id="rsvp-count" name="count">
+              <option value="0">없음</option>
               <option value="1">1명</option>
               <option value="2">2명</option>
               <option value="3">3명</option>
@@ -154,18 +162,24 @@
               <option value="7">7명</option>
               <option value="8">8명</option>
               <option value="9">9명</option>
-              <option value="10">10명 이상</option>
+              <option value="10">10명</option>
+              <option value="11">11명</option>
+              <option value="12">12명</option>
+              <option value="13">13명</option>
+              <option value="14">14명</option>
+              <option value="15">15명</option>
             </select>
+            <p class="rsvp__total" data-rsvp-total></p>
           </div>
 
           <div class="rsvp__field" data-rsvp-meal>
             <span class="rsvp__legend">식사 여부</span>
             <div class="rsvp__pills rsvp__pills--3">
               <label class="rsvp__pill">
-                <input type="radio" name="meal" value="예정" checked /><span>예정</span>
+                <input type="radio" name="meal" value="예정" checked /><span>O</span>
               </label>
               <label class="rsvp__pill">
-                <input type="radio" name="meal" value="안함" /><span>안 함</span>
+                <input type="radio" name="meal" value="안함" /><span>X</span>
               </label>
               <label class="rsvp__pill">
                 <input type="radio" name="meal" value="미정" /><span>미정</span>
