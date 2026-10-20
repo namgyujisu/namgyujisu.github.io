@@ -767,11 +767,30 @@ h1, h2 { margin: 0; font-weight: 400; }
 .notice__item {
   flex: 0 0 88%;
   scroll-snap-align: center;
-  padding: 24px 20px;
+  padding: 0 0 24px;
   background: var(--white);
   border: 1px solid var(--line);
   text-align: left;
 }
+.notice__item > :not(.notice__art) { padding-left: 20px; padding-right: 20px; }
+
+/* 카드 머리의 그림. 사진으로 바꿔 끼워도 같은 자리에 들어맞는다. */
+.notice__art {
+  display: block;
+  padding: 18px 0 14px;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+}
+.notice__art img {
+  display: block;
+  width: 100%;
+  max-width: 240px;
+  height: 92px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+.notice__title { padding-top: 20px; }
 /* 카드 하나뿐이면 넘길 것이 없으니 가득 채운다 */
 .notice__item:only-child { flex-basis: 100%; }
 

@@ -92,6 +92,8 @@ const CONFIG = {
   notices: [
     {
       title: '층별 안내',
+      // 예식장에서 실제 사진을 받으면 이 파일만 바꿔 끼우면 됩니다.
+      image: 'images/notice-floors.svg',
       lines: [
         '노블발렌티 삼성은 단독홀로',
         '건물 하나를 전부 사용합니다.',
@@ -104,6 +106,7 @@ const CONFIG = {
     },
     {
       title: '식사 안내',
+      image: 'images/notice-meal.svg',
       // <b> 로 감싼 줄은 코스 이름으로 크게 표시됩니다. 빈 줄 '' 은 한 칸 띄웁니다.
       lines: [
         '귀한 발걸음, 정성스러운 코스 식사로 대접하겠습니다.',

@@ -73,6 +73,7 @@
 
     box.innerHTML = items.map((n) => `
       <div class="notice__item">
+        ${n.image ? `<div class="notice__art"><img src="${n.image}" alt="" loading="lazy" decoding="async" /></div>` : ''}
         <p class="notice__title">${n.title}</p>
         <p class="notice__body">${n.lines
           .map((l) => (String(l).trim() === '' ? '<span class="sp"></span>' : l))
