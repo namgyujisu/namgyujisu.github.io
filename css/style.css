@@ -60,8 +60,10 @@ h1, h2 { margin: 0; font-weight: 400; }
    래퍼 엘리먼트나 별도 데스크톱 레이아웃이 필요 없다. */
 .section,
 .footer {
-  padding-left:  max(var(--pad), calc((100% - var(--content-w)) / 2));
-  padding-right: max(var(--pad), calc((100% - var(--content-w)) / 2));
+  /* 가로로 넘기는 카드가 이 값을 상쇄해 가장자리까지 흐르게 한다 */
+  --edge: max(var(--pad), calc((100% - var(--content-w)) / 2));
+  padding-left:  var(--edge);
+  padding-right: var(--edge);
 }
 
 /* =============================================================
@@ -744,14 +746,48 @@ h1, h2 { margin: 0; font-weight: 400; }
 /* =============================================================
    안내사항
    ============================================================= */
-.notice { margin-top: 30px; }
+/* 항목이 길어지면 세로로 한없이 늘어나므로 좌우로 넘겨 본다.
+   오른쪽 카드가 살짝 비치게 두어 더 있다는 걸 알린다. */
+.notice {
+  margin-top: 30px;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* 넘길 때 카드가 섹션 가장자리에 닿도록 패딩을 상쇄한다 */
+  margin-left: calc(-1 * var(--edge));
+  margin-right: calc(-1 * var(--edge));
+  padding-left: var(--edge);
+  padding-right: var(--edge);
+}
+.notice::-webkit-scrollbar { display: none; }
+
 .notice__item {
-  padding: 22px 20px;
+  flex: 0 0 88%;
+  scroll-snap-align: center;
+  padding: 24px 20px;
   background: var(--white);
   border: 1px solid var(--line);
   text-align: left;
 }
-.notice__item + .notice__item { margin-top: 9px; }
+/* 카드 하나뿐이면 넘길 것이 없으니 가득 채운다 */
+.notice__item:only-child { flex-basis: 100%; }
+
+/* 몇 번째 카드인지 알려주는 점 */
+.notice__dots {
+  margin-top: 16px;
+  display: flex; justify-content: center; gap: 6px;
+}
+.notice__dots span {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--line);
+  transition: background .25s var(--ease);
+}
+.notice__dots span.is-on { background: var(--gold); }
+.notice__dots:has(span:only-child) { display: none; }
 .notice__title {
   font-size: 14px;
   letter-spacing: .08em;
@@ -765,6 +801,16 @@ h1, h2 { margin: 0; font-weight: 400; }
   color: var(--ink-soft);
 }
 .notice__body .sp { display: block; height: 8px; }
+/* 메뉴의 코스 이름 */
+.notice__body b {
+  display: block;
+  margin-bottom: 1px;
+  font-family: var(--font-en);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: var(--gold);
+}
 
 /* =============================================================
    참석여부

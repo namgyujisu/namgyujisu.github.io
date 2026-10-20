@@ -78,6 +78,20 @@
           .map((l) => (String(l).trim() === '' ? '<span class="sp"></span>' : l))
           .join('<br />')}</p>
       </div>`).join('');
+
+    if (items.length < 2) return;
+
+    // 몇 번째를 보고 있는지 점으로 알린다
+    const dots = el('div', 'notice__dots',
+      items.map(() => '<span></span>').join(''));
+    box.after(dots);
+    const marks = [...dots.children];
+    const paint = () => {
+      const i = Math.round(box.scrollLeft / (box.scrollWidth / items.length));
+      marks.forEach((m, j) => m.classList.toggle('is-on', j === Math.min(i, items.length - 1)));
+    };
+    paint();
+    box.addEventListener('scroll', paint, { passive: true });
   })();
 
   /* =========================================================
