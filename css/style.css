@@ -963,6 +963,34 @@ select.rsvp__input {
 }
 
 /* =============================================================
+   참석여부 바로가기 (떠 있는 버튼)
+   ============================================================= */
+.rsvp-fab {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  z-index: 150;
+  padding: 12px 24px;
+  border: 1px solid var(--gold);
+  border-radius: 100px;
+  background: rgba(255, 255, 255, .94);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--gold);
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  letter-spacing: .04em;
+  box-shadow: 0 4px 18px rgba(47, 42, 38, .12);
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  pointer-events: none;
+  transition: opacity .3s var(--ease), transform .3s var(--ease);
+}
+.rsvp-fab.is-on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.rsvp-fab[hidden] { display: none; }
+.rsvp-fab:hover, .rsvp-fab:active { background: var(--gold); color: var(--white); }
+
+/* =============================================================
    Toast
    ============================================================= */
 .toast {

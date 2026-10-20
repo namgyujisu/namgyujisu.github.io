@@ -28,6 +28,7 @@ const panelEl  = $('[data-rsvp-panel]');
 const mealEl   = $('[data-rsvp-meal]');
 const phoneEl  = $('[data-rsvp-phone]');
 const totalEl  = $('[data-rsvp-total]');
+const fabEl    = $('[data-rsvp-fab]');
 
 /* 섹션은 hidden 으로 시작한다. 설정이 꺼져 있거나 firebase 가 비어 있으면
    그대로 감춘 채 끝낸다. 저장이 안 되는 폼을 보여주면 하객은 전달됐다고
@@ -51,6 +52,47 @@ const setOpen = (open) => {
 };
 toggleEl.addEventListener('click', () => setOpen(!foldEl.classList.contains('is-open')));
 
+/* ---------- 떠 있는 바로가기 ----------
+   참석여부는 많이 받는 게 전부인데, 스크롤하다 섹션을 지나치면 그걸로 끝이다.
+   다만 그냥 띄워두면 광고처럼 보이고 사진을 가리므로 네 가지를 지킨다.
+     · 표지를 지나야 나타난다
+     · 참석여부 섹션이 화면에 들어오면 숨는다 (바로 아래 같은 버튼이 있다)
+     · 한 번 전달했거나 마감됐으면 영영 안 보인다
+     · 작고 조용하게                                                    */
+let pastHero = false;
+let inView   = false;
+let fabDead  = false;
+
+function killFab() {
+  fabDead = true;
+  if (!fabEl) return;
+  fabEl.hidden = true;
+  fabEl.classList.remove('is-on');
+}
+
+const syncFab = () => {
+  if (!fabEl || fabDead) return;
+  fabEl.hidden = false;
+  fabEl.classList.toggle('is-on', pastHero && !inView);
+};
+
+if (fabEl) {
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting; syncFab(); })
+      .observe(hero);
+  } else {
+    pastHero = true;
+  }
+  new IntersectionObserver(([e]) => { inView = e.isIntersecting; syncFab(); })
+    .observe(section);
+
+  fabEl.addEventListener('click', () => {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setOpen(true);
+  });
+}
+
 /* ---------- 마감 확인 ----------
    deadline 은 '그 날까지 받는다'는 뜻이라 당일 자정까지 열어둔다. */
 const closed = (() => {
@@ -60,6 +102,7 @@ const closed = (() => {
 })();
 
 const showDone = (msg, canRedo) => {
+  killFab();                      // 이미 답한 사람을 계속 찌르지 않는다
   formEl.hidden = true;
   doneEl.hidden = false;
   doneMsgEl.textContent = msg;
