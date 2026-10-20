@@ -198,9 +198,10 @@ h1, h2 { margin: 0; font-weight: 400; }
 /* 섹션 순서대로 한 칸씩 번갈아 깔아 경계를 만든다.
    info · date · rsvp · account · contact 가 짙은 쪽. */
 .section--date,
-.section--rsvp,
-.section--account,
-.section--contact { background: var(--bg-alt); }
+.section--notice,
+.section--gallery,
+.section--guestbook,
+.section--share { background: var(--bg-alt); }
 
 .section__label {
   font-family: var(--font-ui);
@@ -739,6 +740,31 @@ h1, h2 { margin: 0; font-weight: 400; }
   opacity: .85;
 }
 .honor svg { width: 100%; height: 100%; display: block; }
+
+/* =============================================================
+   안내사항
+   ============================================================= */
+.notice { margin-top: 30px; }
+.notice__item {
+  padding: 22px 20px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  text-align: left;
+}
+.notice__item + .notice__item { margin-top: 9px; }
+.notice__title {
+  font-size: 14px;
+  letter-spacing: .08em;
+  color: var(--ink);
+}
+.notice__body {
+  margin-top: 12px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 2;
+  color: var(--ink-soft);
+}
+.notice__body .sp { display: block; height: 8px; }
 
 /* =============================================================
    참석여부

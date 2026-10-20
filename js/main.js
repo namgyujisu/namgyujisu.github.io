@@ -57,6 +57,30 @@
   };
 
   /* =========================================================
+     안내사항 — 층별 · 식사 등. 내용이 빈 항목은 아예 그리지 않는다.
+     ========================================================= */
+  (function renderNotices() {
+    const box = $('[data-notice]');
+    if (!box) return;
+
+    const items = (CONFIG.notices || [])
+      .filter((n) => (n.lines || []).some((l) => String(l).trim() !== ''));
+
+    if (!items.length) {
+      document.querySelector('.section--notice').hidden = true;
+      return;
+    }
+
+    box.innerHTML = items.map((n) => `
+      <div class="notice__item">
+        <p class="notice__title">${n.title}</p>
+        <p class="notice__body">${n.lines
+          .map((l) => (String(l).trim() === '' ? '<span class="sp"></span>' : l))
+          .join('<br />')}</p>
+      </div>`).join('');
+  })();
+
+  /* =========================================================
      2. 인사말
      ========================================================= */
   $('[data-invite-poem]').innerHTML = CONFIG.greeting.poem.join('<br />');
@@ -74,6 +98,15 @@
       ${honor(b.father)}<span class="dot">·</span>${honor(b.mother)}
       <span class="rel">의 ${b.role}</span><span class="child">${b.name}</span>
     </p>`;
+
+  /* 참석여부의 '신랑측 · 신부측' 에 이름을 붙인다. 하객이 어느 쪽인지
+     헷갈리지 않도록. 섹션이 꺼져 있으면 요소가 없으므로 건너뛴다. */
+  (function renderSideLabels() {
+    const gEl = $('[data-side-groom]');
+    const bEl = $('[data-side-bride]');
+    if (gEl) gEl.textContent = `신랑 ${g.name}측`;
+    if (bEl) bEl.textContent = `신부 ${b.name}측`;
+  })();
 
   /* =========================================================
      3. 연락하기
