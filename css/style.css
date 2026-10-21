@@ -751,6 +751,7 @@ h1, h2 { margin: 0; font-weight: 400; }
 .notice {
   margin-top: 30px;
   display: flex;
+  align-items: flex-start;   /* 짧은 카드가 늘어나 아래가 비는 것을 막는다 */
   gap: 10px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -772,7 +773,7 @@ h1, h2 { margin: 0; font-weight: 400; }
   border: 1px solid var(--line);
   text-align: left;
 }
-.notice__item > :not(.notice__art) { padding-left: 20px; padding-right: 20px; }
+.notice__item:not(.notice__item--shot) > :not(.notice__art) { padding-left: 20px; padding-right: 20px; }
 
 /* 그림 한 장이 카드 전체인 경우 — 여백 없이 가득 채우고 눌러 크게 본다 */
 .notice__item--shot { padding: 0; overflow: hidden; }
@@ -785,7 +786,6 @@ h1, h2 { margin: 0; font-weight: 400; }
   cursor: zoom-in;
 }
 .notice__shot img { display: block; width: 100%; height: auto; }
-.notice__item--shot > :not(.notice__shot) { padding: 0; }
 
 /* 눌러서 크게 볼 수 있다는 안내 */
 .notice__hint {
@@ -818,18 +818,33 @@ h1, h2 { margin: 0; font-weight: 400; }
 .notice__item:only-child { flex-basis: 100%; }
 
 /* 몇 번째 카드인지 알려주는 점 */
+/* 점과 화살표. 터치가 없는 기기에서도 넘길 수 있어야 한다. */
 .notice__dots {
   margin-top: 16px;
-  display: flex; justify-content: center; gap: 6px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
 }
-.notice__dots span {
+.notice__dots .pips { display: flex; align-items: center; gap: 6px; }
+.notice__dots .pips i {
   width: 5px; height: 5px;
   border-radius: 50%;
   background: var(--line);
   transition: background .25s var(--ease);
 }
-.notice__dots span.is-on { background: var(--gold); }
-.notice__dots:has(span:only-child) { display: none; }
+.notice__dots .pips i.is-on { background: var(--gold); }
+.notice__arrow {
+  width: 26px; height: 26px;
+  display: grid; place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--ink-soft);
+  font-size: 13px;
+  line-height: 1;
+  transition: background .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
+}
+.notice__arrow:hover { background: var(--gold); border-color: var(--gold); color: var(--white); }
+.notice__arrow:disabled { opacity: .35; cursor: default; }
+.notice__arrow:disabled:hover { background: var(--white); border-color: var(--line); color: var(--ink-soft); }
 .notice__title {
   font-size: 14px;
   letter-spacing: .08em;

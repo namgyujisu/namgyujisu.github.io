@@ -109,17 +109,38 @@
 
     if (items.length < 2) return;
 
-    // 몇 번째를 보고 있는지 점으로 알린다
-    const dots = el('div', 'notice__dots',
-      items.map(() => '<span></span>').join(''));
+    /* 몇 번째를 보고 있는지 알리고, 화살표로도 넘긴다.
+       터치가 없는 컴퓨터에서는 가로 스크롤을 할 방법이 마땅치 않다. */
+    const dots = el('div', 'notice__dots', `
+      <button type="button" class="notice__arrow" data-nav="-1" aria-label="이전">&#8249;</button>
+      <span class="pips">${items.map(() => '<i></i>').join('')}</span>
+      <button type="button" class="notice__arrow" data-nav="1" aria-label="다음">&#8250;</button>`);
     box.after(dots);   // 힌트 줄보다 위
-    const marks = [...dots.children];
+
+    const pips = [...dots.querySelectorAll('.pips i')];
+    const navs = [...dots.querySelectorAll('[data-nav]')];
+    const step = () => box.scrollWidth / items.length;
+    let cur = 0;
+
     const paint = () => {
-      const i = Math.round(box.scrollLeft / (box.scrollWidth / items.length));
-      marks.forEach((m, j) => m.classList.toggle('is-on', j === Math.min(i, items.length - 1)));
+      cur = Math.min(Math.round(box.scrollLeft / step()), items.length - 1);
+      pips.forEach((m, j) => m.classList.toggle('is-on', j === cur));
+      navs.forEach((b) => {
+        const d = Number(b.dataset.nav);
+        b.disabled = (d < 0 && cur === 0) || (d > 0 && cur === items.length - 1);
+      });
     };
+
+    dots.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-nav]');
+      if (!b) return;
+      const next = Math.max(0, Math.min(items.length - 1, cur + Number(b.dataset.nav)));
+      box.scrollTo({ left: next * step(), behavior: 'smooth' });
+    });
+
     paint();
     box.addEventListener('scroll', paint, { passive: true });
+    window.addEventListener('resize', paint);
   })();
 
   /* =========================================================
