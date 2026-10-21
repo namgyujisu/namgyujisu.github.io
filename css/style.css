@@ -785,7 +785,15 @@ h1, h2 { margin: 0; font-weight: 400; }
   background: none;
   cursor: zoom-in;
 }
-.notice__shot img { display: block; width: 100%; height: auto; }
+/* 카드 높이를 2:3 으로 못 박는다. 비율이 다른 그림으로 바꿔도 줄이 틀어지지
+   않고, 남는 자리는 그림들의 크림색과 같은 바탕으로 메워져 티가 안 난다. */
+.notice__item--shot { background: #f5efe8; }
+.notice__shot img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: contain;
+}
 
 /* 눌러서 크게 볼 수 있다는 안내 */
 .notice__hint {
