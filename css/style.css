@@ -774,6 +774,29 @@ h1, h2 { margin: 0; font-weight: 400; }
 }
 .notice__item > :not(.notice__art) { padding-left: 20px; padding-right: 20px; }
 
+/* 그림 한 장이 카드 전체인 경우 — 여백 없이 가득 채우고 눌러 크게 본다 */
+.notice__item--shot { padding: 0; overflow: hidden; }
+.notice__shot {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.notice__shot img { display: block; width: 100%; height: auto; }
+.notice__item--shot > :not(.notice__shot) { padding: 0; }
+
+/* 눌러서 크게 볼 수 있다는 안내 */
+.notice__hint {
+  margin-top: 12px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: .02em;
+  color: var(--muted);
+  text-align: center;
+}
+
 /* 카드 머리의 그림. 사진으로 바꿔 끼워도 같은 자리에 들어맞는다. */
 .notice__art {
   display: block;

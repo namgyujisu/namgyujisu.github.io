@@ -64,28 +64,55 @@
     if (!box) return;
 
     const items = (CONFIG.notices || [])
-      .filter((n) => (n.lines || []).some((l) => String(l).trim() !== ''));
+      .filter((n) => n.image || (n.lines || []).some((l) => String(l).trim() !== ''));
 
     if (!items.length) {
       document.querySelector('.section--notice').hidden = true;
       return;
     }
 
-    box.innerHTML = items.map((n) => `
+    /* 그림 한 장이 카드 전체인 경우가 있다(메뉴판 · 층별 안내). 그림 안에
+       제목과 내용이 다 들어 있으므로 글을 또 얹지 않는다. 대신 글씨가 작아
+       눌러서 크게 볼 수 있게 한다. */
+    const shots = items.filter((n) => n.image && !(n.lines || []).length).map((n) => n.image);
+
+    box.innerHTML = items.map((n) => {
+      if (n.image && !(n.lines || []).length) {
+        return `
+      <div class="notice__item notice__item--shot">
+        <button type="button" class="notice__shot" data-shot="${shots.indexOf(n.image)}"
+                aria-label="${n.title} 크게 보기">
+          <img src="${n.image}" alt="${n.title}" loading="lazy" decoding="async" />
+        </button>
+      </div>`;
+      }
+      return `
       <div class="notice__item">
         ${n.image ? `<div class="notice__art"><img src="${n.image}" alt="" loading="lazy" decoding="async" /></div>` : ''}
         <p class="notice__title">${n.title}</p>
-        <p class="notice__body">${n.lines
+        <p class="notice__body">${(n.lines || [])
           .map((l) => (String(l).trim() === '' ? '<span class="sp"></span>' : l))
           .join('<br />')}</p>
-      </div>`).join('');
+      </div>`;
+    }).join('');
+
+    if (shots.length) {
+      box.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-shot]');
+        if (btn) lbOpen(Number(btn.dataset.shot), shots);
+      });
+    }
+
+    if (shots.length) {
+      box.after(el('p', 'notice__hint', '그림을 누르면 크게 볼 수 있습니다'));
+    }
 
     if (items.length < 2) return;
 
     // 몇 번째를 보고 있는지 점으로 알린다
     const dots = el('div', 'notice__dots',
       items.map(() => '<span></span>').join(''));
-    box.after(dots);
+    box.after(dots);   // 힌트 줄보다 위
     const marks = [...dots.children];
     const paint = () => {
       const i = Math.round(box.scrollLeft / (box.scrollWidth / items.length));
@@ -261,18 +288,26 @@
   const lbCount = $('[data-lb-count]');
   let lbIdx = 0;
 
+  // 갤러리 말고 안내사항 그림도 같은 창으로 띄운다
+  let lbList = photos;
+
   const lbShow = (i) => {
-    lbIdx = (i + photos.length) % photos.length;
-    lbImg.src = photos[lbIdx];
-    lbImg.alt = `웨딩 사진 ${lbIdx + 1}`;
-    lbCount.textContent = `${lbIdx + 1} / ${photos.length}`;
+    lbIdx = (i + lbList.length) % lbList.length;
+    lbImg.src = lbList[lbIdx];
+    lbImg.alt = lbList === photos ? `웨딩 사진 ${lbIdx + 1}` : '안내';
+    lbCount.textContent = lbList.length > 1 ? `${lbIdx + 1} / ${lbList.length}` : '';
   };
-  const lbOpen  = (i) => { lbShow(i); lb.hidden = false; document.body.style.overflow = 'hidden'; };
+  const lbOpen = (i, list) => {
+    lbList = list || photos;
+    lbShow(i);
+    lb.hidden = false;
+    document.body.style.overflow = 'hidden';
+  };
   const lbClose = ()  => { lb.hidden = true;  document.body.style.overflow = ''; };
 
   $('[data-gallery]').addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-idx]');
-    if (btn) lbOpen(Number(btn.dataset.idx));
+    if (btn) lbOpen(Number(btn.dataset.idx), photos);
   });
   $('[data-lb-close]').addEventListener('click', lbClose);
   $('[data-lb-prev]').addEventListener('click', (e) => { e.stopPropagation(); lbShow(lbIdx - 1); });
