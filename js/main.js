@@ -273,6 +273,11 @@
     // .ics 는 일단 파일로 받아진 뒤 한 번 더 눌러야 해서 중간에 포기한다.
     const isApple = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent);
 
+    // 청첩장은 대부분 카톡으로 전달되고, 하객은 카톡 안의 브라우저로 연다.
+    // 그 브라우저는 크롬·사파리와 로그인도 핸들러도 따로 놀아서, 구글 캘린더는
+    // 로그인 화면부터 띄우고 .ics 는 아무 반응이 없다. 바깥 브라우저로 넘긴다.
+    const inKakao = /KAKAOTALK/i.test(navigator.userAgent);
+
     const pad = (n) => String(n).padStart(2, '0');
     const utc = (h) => {
       const d = new Date(Date.UTC(D.year, D.month - 1, D.day, h - 9, D.minute));
@@ -281,7 +286,7 @@
     };
 
     const v = CONFIG.venue;
-    const href = isApple ? 'invite.ics' : 'https://calendar.google.com/calendar/render?' + new URLSearchParams({
+    let href = isApple ? 'invite.ics' : 'https://calendar.google.com/calendar/render?' + new URLSearchParams({
       action:   'TEMPLATE',
       text:     `${g.name} ♥ ${b.name} 결혼식`,
       dates:    `${utc(D.hour)}/${utc(D.hour + 2)}`,
@@ -290,7 +295,18 @@
       ctz:      'Asia/Seoul',
     });
 
-    return `<a class="cal__save-btn" href="${href}"${isApple ? ' download' : ' target="_blank" rel="noopener"'}>`
+    // download 를 붙이면 사파리가 캘린더를 여는 대신 파일 앱에 저장해 버린다.
+    // 그냥 링크로 두면 text/calendar 를 보고 '캘린더에 추가' 창을 바로 띄운다.
+    let attr = isApple ? '' : ' target="_blank" rel="noopener"';
+
+    if (inKakao) {
+      // 스킴에 넘길 주소는 절대주소여야 한다 ('invite.ics' 는 카톡이 못 푼다).
+      href = 'kakaotalk://web/openExternal?url=' +
+             encodeURIComponent(new URL(href, location.href).href);
+      attr = '';  // 새 창으로 열면 빈 탭만 남는다
+    }
+
+    return `<a class="cal__save-btn" href="${href}"${attr}>`
       + `${ICON.calendar}<span>캘린더에 저장하기</span></a>`;
   }
 
